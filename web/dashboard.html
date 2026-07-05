@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Hôpital</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- MENU -->
+    <button class="menu-btn" onclick="toggleMenu()">
+        <img src="photo/menu .png" alt="Menu">
+    </button>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+        <ul class="menu">
+            <li class="active"><a href="dashboard.html">🏥 Dashboard</a></li>
+            <li><a href="Menu/reception.html">🧑‍🦱 Réceptions</a></li>
+            <li><a href="Menu/Consultation.html">👩‍⚕️ Consultations</a></li>
+            <li><a href="Menu/Medecins.html">👥 Personnel</a></li>
+            <li><a href="Menu/rendezvous.html">📅 Rendez-vous</a></li>
+            <li><a href="Menu/pharmacie.html">💊 Pharmacie</a></li>
+            <li><a href="Menu/laboratoire.html">🧪 Laboratoire</a></li>
+            <li><a href="Menu/facturation.html">💳 Facturation</a></li>
+            <li><a href="Menu/urgence.html">🚑 Urgences</a></li>
+            <li><a href="Menu/settings.html">⚙️ Paramètres</a></li>
+            <li><a onclick="deconnecter()">🚪 Déconnexion</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTENU -->
+    <main class="main">
+
+        <!-- TOP -->
+        <header class="topbar">
+            <div>
+                <h1>TABLEAU PRINCIPAL</h1>
+                <p>Bienvenue Administrateur</p>
+            </div>
+            <div class="profil">
+                <img src="media/logo.jpeg">
+            </div>
+        </header>
+
+        <!-- CARDS -->
+        <section class="cards">
+            <div class="card">
+                <h3>Patients</h3>
+                <h2 id="patients">----</h2>
+                <span id="patientDispo">---% semaine</span>
+            </div>
+            <div class="card">
+                <h3>Médecins</h3>
+                <h2 id="medecins">----</h2>
+                <span id="medecinsDispo">---- disponibles</span>
+            </div>
+            <div class="card">
+                <h3>Urgences</h3>
+                <h2 id="urgences">----</h2>
+                <span>---- critiques</span>
+            </div>
+            <div class="card">
+                <h3>Revenus</h3>
+                <h2 id="revenus">---- $</h2>
+                <span>+----% aujourd'hui</span>
+            </div>
+        </section>
+
+        <!-- GRAPHIQUE -->
+        <section class="graph-section">
+            <div class="graph-card">
+                <div class="title"><h2>Statistiques Patients</h2></div>
+                <div class="graph">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                    <div class="bar bar4"></div>
+                    <div class="bar bar5"></div>
+                    <div class="bar bar6"></div>
+                </div>
+            </div>
+            <div class="activity">
+                <h2>Activités Récentes</h2>
+                <div class="act"><p>🟢 Nouveau patient enregistré</p><span>Il y a -- min</span></div>
+                <div class="act"><p>🔵 Consultation terminée</p><span>Il y a -- min</span></div>
+                <div class="act"><p>🟠 Paiement reçu</p><span>Il y a -- min</span></div>
+                <div class="act"><p>🔴 Cas d'urgence admis</p><span>Il y a -- min</span></div>
+            </div>
+        </section>
+
+        <!-- TABLE -->
+        <section class="table-section">
+            <div class="table-card">
+                <div class="table-top">
+                    <h2>Patients Récents</h2>
+                    <button onclick="ajouterPatient()">+ Ajouter</button>
+                </div>
+                <table id="tablePatients">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Âge</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>Jean Kelvin</td>
+                        <td>18</td>
+                        <td>Cardiologie</td>
+                        <td><span class="ok">Stable</span></td>
+                    </tr>
+                    <tr>
+                        <td>Sarah Musa</td>
+                        <td>25</td>
+                        <td>Pédiatrie</td>
+                        <td><span class="wait">Observation</span></td>
+                    </tr>
+                    <tr>
+                        <td>Patrick K.</td>
+                        <td>40</td>
+                        <td>Urgence</td>
+                        <td><span class="danger">Critique</span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<button class="darkmode" onclick="changerMode()">🌙</button>
+
+<!-- ✅ CORRECTION : seulement ds.js, pas Menu/script.js -->
+<script src="static/ds.js"></script>
+
+<script>
+// Toggle sidebar
+function toggleMenu() {
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".overlay");
+
+    if (window.innerWidth > 768) {
+        sidebar.classList.toggle("hidden");
+        localStorage.setItem("sidebarState", sidebar.classList.contains("hidden") ? "hidden" : "open");
+    } else {
+        sidebar.classList.toggle("show");
+        if (overlay) overlay.classList.toggle("active");
+        localStorage.setItem("sidebarState", sidebar.classList.contains("show") ? "show" : "hidden");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Vérifier session
+    const role = localStorage.getItem("role");
+    if (!role) { window.location.href = "index.html"; return; }
+
+    const sidebar = document.querySelector(".sidebar");
+
+    // Créer overlay si absent
+    let overlay = document.querySelector(".overlay");
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+        document.body.appendChild(overlay);
+    }
+
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("show");
+        overlay.classList.remove("active");
+        localStorage.setItem("sidebarState", "hidden");
+    });
+
+    // Restaurer sidebar
+    const state = localStorage.getItem("sidebarState");
+    if (state === "hidden") sidebar.classList.add("hidden");
+    else if (state === "show") { sidebar.classList.add("show"); overlay.classList.add("active"); }
+
+    // Restaurer mode sombre
+    if (localStorage.getItem("darkMode") === "on") document.body.classList.add("sombre");
+
+    // ✅ Charger les données
+    chargerPatients();
+    chargerMedecins();
+});
+
+// Rafraîchir toutes les 30 secondes
+setInterval(() => {
+    chargerPatients();
+    chargerMedecins();
+}, 30000);
+</script>
+
+</body>
+</html>

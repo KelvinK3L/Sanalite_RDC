@@ -1,0 +1,493 @@
+/* ==========================
+   DESIGN PREMIUM SANA LITE
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+
+
+body{
+    min-height:100vh;
+    background:
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #464951
+    );
+    padding:30px;
+}
+
+/* CONTENEUR */
+
+.container{
+    max-width:1400px;
+    margin:auto;
+
+    backdrop-filter:blur(20px);
+
+    background:rgba(255,255,255,0.08);
+
+    border:1px solid rgba(255,255,255,0.1);
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,0.4);
+}
+
+/* HEADER */
+
+.header{
+
+    padding:40px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #06b6d4,
+        #3b82f6
+    );
+
+    color:white;
+}
+
+.header h1{
+    font-size:2.2rem;
+}
+
+.header p{
+    margin-top:10px;
+    opacity:0.9;
+}
+
+/* FORMULAIRE */
+
+form{
+    padding:35px;
+}
+
+/* SECTIONS */
+
+h2{
+
+    color:#38bdf8;
+
+    margin-top:30px;
+
+    margin-bottom:20px;
+
+    font-size:1.2rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    position:relative;
+}
+
+h2::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:80px;
+
+    height:3px;
+
+    background:#38bdf8;
+}
+
+/* GRILLE */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:20px;
+
+    margin-bottom:20px;
+}
+
+/* CHAMPS */
+
+.input-box{
+
+    background:
+    rgba(255,255,255,0.05);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    padding:15px;
+
+    border-radius:15px;
+}
+
+.input-box label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#cbd5e1;
+
+    font-size:14px;
+}
+
+.input-box input,
+.input-box select,
+.input-box textarea{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    background:
+    rgba(233, 226, 226, 0.08);
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    font-size:15px;
+}
+
+.input-box input:focus,
+.input-box select:focus,
+.input-box textarea:focus{
+
+    box-shadow:
+    0 0 15px
+    rgba(56,189,248,0.5);
+}
+
+/* PLACEHOLDER */
+
+::placeholder{
+    color:#94a3b8;
+}
+
+/* BOUTONS */
+
+.buttons{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+}
+
+.buttons button{
+
+    border:none;
+
+    padding:14px 30px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+/* ENREGISTRER */
+
+.save{
+
+    background:
+    linear-gradient(
+    90deg,
+    #10b981,
+    #059669
+    );
+}
+
+/* IMPRIMER */
+
+.print{
+
+    background:
+    linear-gradient(
+    90deg,
+    #3b82f6,
+    #2563eb
+    );
+}
+
+@import url('sidebar-common.css');
+@import url('buttons-common.css');
+/* RESET */
+
+.reset{
+
+    background:
+    linear-gradient(
+    90deg,
+    #ef4444,
+    #dc2626
+    );
+}
+
+/* DARKMODE BUTTON */
+.darkmode {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(to right, #111827, #1f2937);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 1000;
+}
+.darkmode:hover { transform: scale(1.05); }
+
+/* MODE SOMBRE */
+body.sombre {
+    background: linear-gradient(to right, #020617, #0f172a);
+    color: #f1f5f9;
+}
+body.sombre .container {
+    background: #111827;
+    border: 1px solid #1e293b;
+}
+body.sombre h1, 
+body.sombre h2, 
+body.sombre h3, 
+body.sombre p, 
+body.sombre span, 
+body.sombre td, 
+body.sombre th {
+    color: #f1f5f9;
+}
+
+/* INPUTS SOMBRE */
+body.sombre input,
+body.sombre select,
+body.sombre textarea {
+    background: #1e293b;
+    color: #f1f5f9;
+    border: 1px solid #334155;
+}
+body.sombre input::placeholder { color: #cbd5e1; }
+body.sombre input:focus,
+body.sombre select:focus,
+body.sombre textarea:focus {
+    border: 1px solid #60a5fa;
+    box-shadow: 0 0 8px rgba(96,165,250,0.3);
+    background: #273449;
+}
+
+/* TABLES */
+body.sombre table td {
+    border-bottom: 1px solid #334155;
+}
+body.sombre table th {
+    border-bottom: 1px solid #475569;
+}
+
+/* BOUTONS SOMBRE */
+body.sombre .save { background: #16a34a; }
+body.sombre .print { background: #2563eb; }
+body.sombre .reset { background: #dc2626; }
+
+
+/* HOVER */
+
+.buttons button:hover{
+
+    transform:
+    translateY(-4px);
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* IMPRESSION */
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .buttons{
+        display:none;
+    }
+
+    .container{
+
+        box-shadow:none;
+
+        border:none;
+
+        background:white;
+    }
+
+    .input-box{
+
+        border:1px solid #ddd;
+
+        background:white;
+    }
+
+    .input-box input,
+    .input-box select{
+
+        color:black;
+        background:white;
+    }
+
+    h2{
+        color:black;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .header{
+        text-align:center;
+    }
+
+    .header h1{
+        font-size:1.7rem;
+    }
+
+    .buttons button{
+        width:100%;
+    }
+}
+
+/* ==========================
+   BOUTON ENVOYER
+========================== */
+
+.transfert{
+
+    background: linear-gradient(
+    135deg,
+    #f59e0b,
+    #d97706
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:14px 30px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.transfert:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 10px 25px
+    rgb(35, 35, 28);
+}
+
+.transfert:active{
+
+    transform:scale(0.97);
+}
+
+/* ==========================
+   ORIENTATION PATIENT
+========================== */
+
+.orientation-box{
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(59,130,246,0.15),
+    rgba(14,165,233,0.10)
+    );
+
+    border:2px solid
+    rgba(59,130,246,0.3);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    margin-bottom:25px;
+}
+
+.orientation-box label{
+
+    color:#38bdf8;
+
+    font-weight:600;
+}
+select{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#1e293b;
+    color:white;
+}
+
+select option{
+    background:#0f172a;
+    color:white;
+}
+/* Retourner vers le dashboard */
+.retour, a{
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    padding: 12px 18px;
+    text-decoration: none;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(to right, #111827, #1f2937);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 1000;
+}

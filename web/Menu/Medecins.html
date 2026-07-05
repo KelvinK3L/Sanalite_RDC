@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personnel — SanaLite RDC</title>
+    <link rel="stylesheet" href="Styles/personnel.css">
+    <style>
+        /* =========================================
+           VARIABLES & BASE
+        ========================================= */
+        :root {
+            --bg:        #f1f5f9;
+            --surface:   #ffffff;
+            --sidebar:   #0f172a;
+            --accent:    #2563eb;
+            --accent2:   #1d4ed8;
+            --green:     #16a34a;
+            --orange:    #d97706;
+            --red:       #dc2626;
+            --text:      #0f172a;
+            --text2:     #64748b;
+            --border:    #e2e8f0;
+            --shadow:    0 4px 20px rgba(0,0,0,.07);
+            --radius:    14px;
+        }
+
+        body.sombre {
+            --bg:      #020617;
+            --surface: #0f172a;
+            --text:    #f1f5f9;
+            --text2:   #94a3b8;
+            --border:  #1e293b;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Segoe UI', Arial, sans-serif; transition: background .3s, color .3s; }
+
+        /* =========================================
+           LAYOUT
+        ========================================= */
+        .container { display:flex; }
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+        .sidebar {
+            width:260px; height:100vh; background:var(--sidebar);
+            color:#fff; padding:24px 16px; position:fixed;
+            left:0; top:0; z-index:100;
+            transition:transform .3s ease;
+            box-shadow:4px 0 24px rgba(0,0,0,.18);
+        }
+        .sidebar.hidden { transform:translateX(-100%); }
+
+        .logo { padding:0 8px; margin-bottom:32px; }
+        .logo h2 { color:#38bdf8; font-size:20px; font-weight:700; letter-spacing:.5px; }
+        .logo p  { color:#94a3b8; font-size:12px; margin-top:2px; }
+
+        .menu { list-style:none; display:flex; flex-direction:column; gap:4px; }
+        .menu li a, .menu li span {
+            display:flex; align-items:center; gap:10px;
+            padding:11px 14px; border-radius:10px;
+            color:#cbd5e1; text-decoration:none; font-size:14px;
+            cursor:pointer; transition:.2s;
+        }
+        .menu li a:hover, .menu li span:hover { background:#1e293b; color:#fff; }
+        .menu li.active a, .menu li.active span { background:var(--accent); color:#fff; }
+
+        /* =========================================
+           MAIN
+        ========================================= */
+        .main {
+            margin-left:260px; width:calc(100% - 260px);
+            padding:28px; transition:margin-left .3s, width .3s;
+        }
+        .sidebar.hidden ~ .main { margin-left:0; width:100%; }
+
+        /* =========================================
+           TOPBAR
+        ========================================= */
+        .topbar {
+            background:var(--surface); border-radius:var(--radius);
+            padding:18px 24px; display:flex; justify-content:space-between;
+            align-items:center; box-shadow:var(--shadow);
+            margin-bottom:24px; border:1px solid var(--border);
+        }
+        .topbar h1 { font-size:20px; font-weight:700; }
+        .topbar p  { color:var(--text2); font-size:13px; margin-top:2px; }
+        .profil img {
+            width:46px; height:46px; border-radius:50%;
+            object-fit:cover; border:3px solid #38bdf8;
+        }
+
+        /* =========================================
+           BOUTON MENU
+        ========================================= */
+        .menu-btn {
+            position:fixed; top:18px; left:18px; z-index:200;
+            background:var(--accent); border:none; border-radius:10px;
+            width:38px; height:38px; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(37,99,235,.4);
+            transition:.2s;
+        }
+        .menu-btn:hover { background:var(--accent2); }
+        .menu-btn img { width:20px; filter:invert(1); }
+
+        /* =========================================
+           STATISTIQUES
+        ========================================= */
+        .cards {
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+            gap:16px; margin-bottom:24px;
+        }
+        .card {
+            background:var(--surface); border-radius:var(--radius);
+            padding:20px; box-shadow:var(--shadow);
+            border:1px solid var(--border);
+        }
+        .card h3 { font-size:13px; color:var(--text2); font-weight:600; margin-bottom:8px; }
+        .card h2 { font-size:30px; font-weight:700; color:var(--accent); }
+        .card span { font-size:12px; color:var(--text2); }
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+        .section {
+            background:var(--surface); border-radius:var(--radius);
+            padding:22px; box-shadow:var(--shadow);
+            border:1px solid var(--border); margin-bottom:20px;
+        }
+        .section-title {
+            font-size:16px; font-weight:700; margin-bottom:16px;
+            display:flex; align-items:center; gap:8px;
+        }
+
+        /* =========================================
+           GRAPHIQUE
+        ========================================= */
+        .graph-wrapper {
+            display:flex; justify-content:center; align-items:center;
+            height:280px;
+        }
+        #presenceChart { max-width:280px; max-height:280px; }
+
+        /* =========================================
+           FORMULAIRE
+        ========================================= */
+        .form-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+            gap:12px;
+        }
+        .form-grid input, .form-grid select {
+            padding:12px 14px; border-radius:10px;
+            border:1px solid var(--border); font-size:14px;
+            background:var(--bg); color:var(--text);
+            outline:none; transition:.2s;
+        }
+        .form-grid input:focus, .form-grid select:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.1);
+        }
+        .btn-primary {
+            background:var(--accent); color:#fff; border:none;
+            border-radius:10px; padding:12px 20px; font-size:14px;
+            font-weight:600; cursor:pointer; transition:.2s;
+        }
+        .btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
+
+        /* =========================================
+           RECHERCHE
+        ========================================= */
+        #recherche {
+            width:100%; padding:13px 16px; border-radius:10px;
+            border:1px solid var(--border); font-size:14px;
+            background:var(--bg); color:var(--text); outline:none; transition:.2s;
+        }
+        #recherche:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        /* =========================================
+           LISTE PERSONNEL
+        ========================================= */
+        .medecin {
+            display:flex; justify-content:space-between; align-items:center;
+            padding:16px 18px; margin-bottom:12px;
+            background:var(--bg); border-left:4px solid var(--accent);
+            border-radius:10px; border:1px solid var(--border);
+            border-left:4px solid var(--accent);
+            transition:.2s;
+        }
+        .medecin:hover { transform:translateY(-2px); box-shadow:var(--shadow); }
+        .medecin strong { font-size:15px; }
+        .medecin .info { font-size:13px; color:var(--text2); margin-top:2px; }
+        .medecin .statut { font-size:13px; font-weight:600; margin-top:6px; }
+
+        .medecin .actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+        .medecin .actions button {
+            padding:8px 14px; border:none; border-radius:8px;
+            font-size:13px; font-weight:600; cursor:pointer; transition:.2s;
+            color:#fff;
+        }
+        .medecin .actions button:hover { opacity:.85; transform:scale(1.03); }
+        .btn-presence  { background:var(--green); }
+        .btn-justifier { background:var(--orange); }
+        .btn-supprimer { background:var(--red); }
+
+        /* =========================================
+           DARK MODE TOGGLE
+        ========================================= */
+        
+        /* =========================================
+           POPUP HISTORIQUE — REDESIGNÉ
+        ========================================= */
+        .popup {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.6); backdrop-filter:blur(4px);
+            justify-content:center; align-items:center; z-index:9999;
+        }
+        .popup-content {
+            width:860px; max-width:95vw; max-height:90vh;
+            background:var(--surface); border-radius:20px;
+            box-shadow:0 24px 60px rgba(0,0,0,.25);
+            overflow:hidden; display:flex; flex-direction:column;
+            animation:popIn .25s ease;
+        }
+        @keyframes popIn {
+            from { transform:scale(.92); opacity:0; }
+            to   { transform:scale(1);   opacity:1; }
+        }
+
+        /* Header popup */
+        .popup-header {
+            background:var(--accent); color:#fff;
+            padding:20px 24px; display:flex;
+            justify-content:space-between; align-items:center;
+        }
+        .popup-header h2 { font-size:17px; font-weight:700; }
+        .popup-header .close {
+            background:rgba(255,255,255,.2); border:none; color:#fff;
+            width:32px; height:32px; border-radius:50%;
+            font-size:18px; cursor:pointer; display:flex;
+            align-items:center; justify-content:center; transition:.2s;
+        }
+        .popup-header .close:hover { background:rgba(255,255,255,.35); }
+
+        /* Contenu popup */
+        .popup-body { padding:28px; overflow-y:auto; flex:1; }
+
+        /* Zone login */
+        #loginHistorique {
+            max-width:380px; margin:0 auto; text-align:center; padding:20px 0;
+        }
+        #loginHistorique .lock-icon { font-size:48px; margin-bottom:16px; }
+        #loginHistorique h3 { font-size:17px; font-weight:700; margin-bottom:6px; }
+        #loginHistorique p  { color:var(--text2); font-size:13px; margin-bottom:24px; }
+        #loginHistorique input {
+            width:100%; padding:13px 16px; border-radius:10px;
+            border:1.5px solid var(--border); font-size:15px;
+            background:var(--bg); color:var(--text);
+            outline:none; text-align:center; letter-spacing:3px;
+            transition:.2s; margin-bottom:14px;
+        }
+        #loginHistorique input:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.12);
+        }
+        #loginHistorique .msg-erreur {
+            color:var(--red); font-size:13px; margin-bottom:10px;
+            min-height:18px;
+        }
+        #loginHistorique button {
+            width:100%; padding:13px; background:var(--accent);
+            color:#fff; border:none; border-radius:10px;
+            font-size:15px; font-weight:700; cursor:pointer; transition:.2s;
+        }
+        #loginHistorique button:hover { background:var(--accent2); }
+
+        /* Tableau historique */
+        #contenuHistorique { display:none; }
+        .historique-stats {
+            display:grid; grid-template-columns:repeat(4,1fr);
+            gap:12px; margin-bottom:20px;
+        }
+        .h-stat {
+            background:var(--bg); border-radius:10px; padding:14px;
+            text-align:center; border:1px solid var(--border);
+        }
+        .h-stat .val { font-size:22px; font-weight:700; }
+        .h-stat .lbl { font-size:12px; color:var(--text2); margin-top:2px; }
+
+        .table-wrapper { overflow-x:auto; border-radius:12px; border:1px solid var(--border); }
+        table {
+            width:100%; border-collapse:collapse;
+            font-size:14px;
+        }
+        thead { background:var(--accent); color:#fff; }
+        thead th { padding:14px 16px; text-align:center; font-weight:600; font-size:13px; }
+        tbody tr { transition:.15s; }
+        tbody tr:nth-child(even) { background:var(--bg); }
+        tbody tr:hover { background:rgba(37,99,235,.06); }
+        tbody td {
+            padding:13px 16px; text-align:center;
+            border-bottom:1px solid var(--border); font-size:13px;
+        }
+        .badge {
+            display:inline-block; padding:3px 10px;
+            border-radius:20px; font-size:12px; font-weight:600;
+        }
+        .badge-green  { background:#dcfce7; color:#15803d; }
+        .badge-orange { background:#fef3c7; color:#b45309; }
+        .badge-red    { background:#fee2e2; color:#b91c1c; }
+
+        /* Bouton voir détail */
+        .btn-detail {
+            background:var(--accent); color:#fff; border:none;
+            padding:5px 12px; border-radius:6px; font-size:12px;
+            cursor:pointer; transition:.2s;
+        }
+        .btn-detail:hover { background:var(--accent2); }
+
+        /* Sous-tableau détail employés */
+        .detail-row td { padding:0 !important; }
+        .detail-inner {
+            background:var(--bg); padding:16px 20px;
+            border-top:2px solid var(--accent);
+        }
+        .detail-inner table { border:none; }
+        .detail-inner thead { background:#1e293b; }
+        .detail-inner tbody tr:nth-child(even) { background:rgba(255,255,255,.05); }
+        .detail-inner tbody td { border-bottom:1px solid var(--border); }
+
+        /* Overlay mobile */
+        .overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.5); z-index:99;
+        }
+        .overlay.active { display:block; }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+        @media (max-width:768px) {
+            .sidebar { transform:translateX(-100%); width:220px; }
+            .sidebar.show { transform:translateX(0); }
+            .main { margin-left:0; width:100%; padding:16px; }
+            .historique-stats { grid-template-columns:repeat(2,1fr); }
+            .medecin { flex-direction:column; align-items:flex-start; gap:12px; }
+            .medecin .actions { width:100%; }
+        }
+
+        /* Détail personnel par jour */
+.detail-inner-wrapper {
+    padding: 16px 20px;
+    background: var(--bg);
+    border-top: 2px solid var(--accent);
+}
+.detail-group { margin-bottom: 16px; }
+.detail-group h4 {
+    font-size: 13px; font-weight: 600;
+    color: var(--text2); margin-bottom: 10px;
+}
+.staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+}
+.staff-card {
+    background: var(--surface); border-radius: 8px;
+    padding: 10px 12px; font-size: 12px;
+    border-left: 3px solid #ccc;
+}
+.staff-card.present  { border-color: var(--green); }
+.staff-card.absent   { border-color: var(--red); }
+.staff-card.justifie { border-color: var(--orange); }
+.staff-name { font-weight: 600; margin-bottom: 2px; }
+.staff-role { color: var(--text2); margin-bottom: 4px; }
+        </style>
+    <link rel="stylesheet" href="Styles/buttons-common.css">
+</head>
+
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
+
+    <!-- BOUTON MENU -->
+    <button class="menu-btn" onclick="toggleMenu()" title="Menu">
+        <img src="photo/menu .png" alt="Menu">
+    </button>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="../dashboard.html">🏥 Dashboard</a></li>
+                <li class="active"><a>👥 Personnel</a></li>
+                <li><a href="reception.html">🛎️ Réception</a></li>
+                <li><a href="Consultation.html">🩺 Consultations</a></li>
+                <li><a href="rendezvous.html">📅 Rendez-vous</a></li>
+                <li><a href="pharmacie.html">💊 Pharmacie</a></li>
+                <li><a href="laboratoire.html">🧪 Laboratoire</a></li>
+                <li><a href="facturation.html">💳 Facturation</a></li>
+                <li><a href="urgence.html">🚑 Urgences</a></li>
+                <li><a href="settings.html">⚙️ Paramètres</a></li>
+                <li><span onclick="deconnecter()">🚪 Déconnexion</span></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <h1>👥 Gestion du Personnel</h1>
+                <p>Administration complète du personnel hospitalier</p>
+            </div>
+            <div class="profil">
+                <img src="../media/logo.jpeg" alt="Logo">
+            </div>
+        </header>
+
+        <!-- STATISTIQUES -->
+        <section class="cards">
+            <div class="card">
+                <h3>👥 Total Personnel</h3>
+                <h2 id="totalPersonnel">0</h2>
+                <span>Employés enregistrés</span>
+            </div>
+            <div class="card">
+                <h3>🟢 Présents</h3>
+                <h2 id="personnelPresent" style="color:#16a34a;">0</h2>
+                <span>Au travail aujourd'hui</span>
+            </div>
+            <div class="card">
+                <h3>🟡 Absences justifiées</h3>
+                <h2 id="personnelJustifie" style="color:#d97706;">0</h2>
+                <span>Congé / Maladie / Autorisation</span>
+            </div>
+            <div class="card">
+                <h3>🔴 Absents</h3>
+                <h2 id="personnelAbsent" style="color:#dc2626;">0</h2>
+                <span>Non présents</span>
+            </div>
+            <div class="card">
+                <h3>🏥 Services</h3>
+                <h2>10</h2>
+                <span>Départements actifs</span>
+            </div>
+        </section>
+
+        <!-- GRAPHIQUE -->
+        <section class="section">
+            <div class="section-title">📊 Répartition de la présence</div>
+            <div class="graph-wrapper">
+                <canvas id="presenceChart"></canvas>
+            </div>
+        </section>
+
+        <!-- FORMULAIRE AJOUT -->
+        <section class="section">
+            <div class="section-title">➕ Enregistrer un employé</div>
+            <div class="form-grid">
+                <input type="text" id="nom" placeholder="Nom complet">
+                <select id="fonction">
+                    <option value="">Choisir une fonction</option>
+                    <option>Médecin</option>
+                    <option>Infirmier</option>
+                    <option>Laborantin</option>
+                    <option>Pharmacien</option>
+                    <option>Réceptionniste</option>
+                    <option>Comptable</option>
+                    <option>Maintenance</option>
+                    <option>Sécurité</option>
+                    <option>Chauffeur</option>
+                    <option>Nettoyage</option>
+                    <option>Administration</option>
+                </select>
+                <input type="text" id="specialite" placeholder="Service / Spécialité">
+                <input type="number" id="experience" placeholder="Années d'expérience" min="0">
+                <button class="btn-primary" onclick="ajouterMedecin()">✅ Enregistrer</button>
+            </div>
+        </section>
+
+        <!-- RECHERCHE -->
+        <section class="section">
+            <div class="section-title">🔍 Rechercher un employé</div>
+            <input type="text" id="recherche"
+                   placeholder="Nom, fonction, service..."
+                   onkeyup="rechercherPersonnel()">
+        </section>
+
+        <!-- LISTE PERSONNEL -->
+        <section class="section">
+            <div class="section-title" style="justify-content:space-between;">
+                <span>📋 Liste du Personnel</span>
+                <span id="compteurListe" style="font-size:13px; color:var(--text2); font-weight:400;"></span>
+            </div>
+            <div id="listeMedecins">
+                <p style="color:var(--text2); text-align:center; padding:20px;">
+                    Chargement...
+                </p>
+            </div>
+        </section>
+
+        <!-- HISTORIQUE -->
+        <section class="section">
+            <div class="section-title">📂 Historique des effectifs</div>
+            <p style="color:var(--text2); font-size:13px; margin-bottom:16px;">
+                Consultez la présence du personnel jour par jour. Accès réservé aux administrateurs.
+            </p>
+            <button class="btn-primary" onclick="ouvrirHistorique()">
+                📅 Consulter l'historique
+            </button>
+        </section>
+
+    </main>
+</div>
+
+<!-- DARK MODE -->
+<button class="darkmode" onclick="changerMode()" title="Mode sombre">🌙</button>
+
+<!-- =============================================
+     POPUP HISTORIQUE — REDESIGNÉ
+============================================= -->
+<div id="popupHistorique" class="popup">
+    <div class="popup-content">
+
+        <!-- Header -->
+        <div class="popup-header">
+            <h2>📁 Historique des effectifs — SanaLite RDC</h2>
+            <button class="close" onclick="fermerHistorique()">✕</button>
+        </div>
+
+        <!-- Body -->
+        <div class="popup-body">
+
+            <!-- ÉTAPE 1 : Login -->
+            <div id="loginHistorique">
+                <div class="lock-icon">🔐</div>
+                <h3>Accès administrateur requis</h3>
+                <p>Entrez votre mot de passe pour consulter l'historique des effectifs.</p>
+                <input type="password" id="mdpHistorique"
+                       placeholder="••••••••"
+                       onkeydown="if(event.key==='Enter') verifierHistorique()">
+                <div class="msg-erreur" id="erreurMdp"></div>
+                <button onclick="verifierHistorique()">🔓 Accéder à l'historique</button>
+            </div>
+
+            <!-- ÉTAPE 2 : Contenu historique -->
+            <div id="contenuHistorique">
+
+                <!-- Mini stats rapides -->
+                <div class="historique-stats" id="historiqueStats"></div>
+
+                <div style="margin-bottom:15px; text-align:right;">
+                    <button class="btn-primary" onclick="ouvrirResetMdp()">
+                        🔑 Réinitialiser le mot de passe
+                    </button>
+                </div>
+
+                <!-- Tableau -->
+                <div class="table-wrapper">
+                    <table>
+<!-- Remplacer le thead du tableau historique par : -->
+                        <thead>
+                            <tr>
+                                <th>📅 Date</th>
+                                <th>👥 Total</th>
+                                <th>🟢 Présents</th>
+                                <th>🟡 Justifiés</th>
+                                <th>🔴 Absents</th>
+                                <th>Détail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableHistorique"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--
+  =====================================================
+  POPUP RESET MOT DE PASSE — SanaLite RDC
+  À coller dans personnel.html à la place de
+  <div id="popupResetMdp" ...>...</div>
+  =====================================================
+-->
+
+<div id="popupResetMdp" class="popup">
+    <div class="popup-content" style="max-width:460px;">
+
+        <!-- Header -->
+        <div class="popup-header">
+            <h2>🔑 Modifier le mot de passe admin</h2>
+            <button class="close" onclick="fermerResetMdp()">✕</button>
+        </div>
+
+        <!-- Body -->
+        <div class="popup-body" style="padding:32px;">
+
+            <!-- Indicateur d'étapes -->
+            <div class="reset-steps">
+                <div class="step active" id="step-indicator-1">
+                    <div class="step-dot">1</div>
+                    <span>Vérification</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" id="step-indicator-2">
+                    <div class="step-dot">2</div>
+                    <span>Nouveau mot de passe</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" id="step-indicator-3">
+                    <div class="step-dot">3</div>
+                    <span>Confirmé</span>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 1 : Ancien mot de passe -->
+            <div id="reset-step-1">
+                <div class="reset-icon">🔐</div>
+                <h3 class="reset-title">Vérification de l'identité</h3>
+                <p class="reset-subtitle">Entrez votre mot de passe actuel pour continuer.</p>
+
+                <div class="reset-field">
+                    <label>Mot de passe actuel</label>
+                    <div class="input-eye-wrap">
+                        <input type="password" id="ancienMdp"
+                               placeholder="••••••••"
+                               onkeydown="if(event.key==='Enter') verifierAncienMdp()">
+                        <button class="eye-btn" onclick="toggleVision('ancienMdp', this)">👁</button>
+                    </div>
+                    <div class="reset-erreur" id="err-ancien"></div>
+                </div>
+
+                <button class="reset-btn-primary" onclick="verifierAncienMdp()" id="btn-step1">
+                    Continuer →
+                </button>
+            </div>
+
+            <!-- ÉTAPE 2 : Nouveau mot de passe -->
+            <div id="reset-step-2" style="display:none;">
+                <div class="reset-icon">🔏</div>
+                <h3 class="reset-title">Nouveau mot de passe</h3>
+                <p class="reset-subtitle">Choisissez un mot de passe fort (min. 6 caractères).</p>
+
+                <div class="reset-field">
+                    <label>Nouveau mot de passe</label>
+                    <div class="input-eye-wrap">
+                        <input type="password" id="nouveauMdp"
+                               placeholder="••••••••"
+                               oninput="evaluerForce(this.value)"
+                               onkeydown="if(event.key==='Enter') validerNouveauMdp()">
+                        <button class="eye-btn" onclick="toggleVision('nouveauMdp', this)">👁</button>
+                    </div>
+                    <!-- Barre de force -->
+                    <div class="force-bar-wrap">
+                        <div class="force-bar" id="force-bar"></div>
+                    </div>
+                    <div class="force-label" id="force-label"></div>
+                    <div class="reset-erreur" id="err-nouveau"></div>
+                </div>
+
+                <div class="reset-field">
+                    <label>Confirmer le mot de passe</label>
+                    <div class="input-eye-wrap">
+                        <input type="password" id="confirmationMdp"
+                               placeholder="••••••••"
+                               onkeydown="if(event.key==='Enter') validerNouveauMdp()">
+                        <button class="eye-btn" onclick="toggleVision('confirmationMdp', this)">👁</button>
+                    </div>
+                    <div class="reset-erreur" id="err-confirm"></div>
+                </div>
+
+                <div style="display:flex;gap:10px;">
+                    <button class="reset-btn-secondary" onclick="retourStep1()">← Retour</button>
+                    <button class="reset-btn-primary" onclick="validerNouveauMdp()" style="flex:1">
+                        💾 Enregistrer
+                    </button>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 3 : Succès -->
+            <div id="reset-step-3" style="display:none; text-align:center; padding:20px 0;">
+                <div style="font-size:56px; margin-bottom:16px;">✅</div>
+                <h3 style="font-size:18px; font-weight:700; margin-bottom:8px;">
+                    Mot de passe modifié !
+                </h3>
+                <p style="color:var(--text2); font-size:13px; margin-bottom:24px;">
+                    Votre mot de passe administrateur a été mis à jour avec succès.
+                </p>
+                <button class="reset-btn-primary" onclick="fermerResetMdp()" style="max-width:200px; margin:auto;">
+                    Fermer
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     STYLES DU POPUP (à ajouter dans le <style> de personnel.html)
+     OU dans un fichier CSS séparé
+===================================================== -->
+<style>
+/* ---- Étapes ---- */
+.reset-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 28px;
+}
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text2);
+    transition: color 0.25s;
+}
+.step.active { color: var(--accent); }
+.step.done   { color: var(--green); }
+.step-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text2);
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.25s, color 0.25s;
+}
+.step.active .step-dot { background: var(--accent); color: #fff; }
+.step.done   .step-dot { background: var(--green);  color: #fff; }
+.step-line {
+    flex: 1; height: 2px;
+    background: var(--border);
+    margin: 0 8px;
+    margin-bottom: 20px;
+    min-width: 32px;
+    transition: background 0.25s;
+}
+.step-line.done { background: var(--green); }
+
+/* ---- Icône et titres ---- */
+.reset-icon  { font-size: 40px; text-align: center; margin-bottom: 12px; }
+.reset-title { font-size: 16px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+.reset-subtitle {
+    font-size: 13px; color: var(--text2);
+    text-align: center; margin-bottom: 22px;
+}
+
+/* ---- Champs ---- */
+.reset-field { margin-bottom: 16px; }
+.reset-field label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--text2); margin-bottom: 6px;
+}
+.input-eye-wrap {
+    position: relative; display: flex; align-items: center;
+}
+.input-eye-wrap input {
+    width: 100%; padding: 11px 40px 11px 14px;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--bg); color: var(--text);
+    font-size: 14px; outline: none; transition: border 0.2s, box-shadow 0.2s;
+    letter-spacing: 2px;
+}
+.input-eye-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+.eye-btn {
+    position: absolute; right: 10px;
+    background: none; border: none; cursor: pointer;
+    font-size: 16px; opacity: 0.5; padding: 4px;
+    transition: opacity 0.15s;
+}
+.eye-btn:hover { opacity: 1; }
+
+/* ---- Barre de force ---- */
+.force-bar-wrap {
+    height: 4px; background: var(--border);
+    border-radius: 4px; margin-top: 8px; overflow: hidden;
+}
+.force-bar {
+    height: 100%; width: 0%;
+    border-radius: 4px; transition: width 0.3s, background 0.3s;
+}
+.force-label {
+    font-size: 11px; font-weight: 600; margin-top: 4px;
+    min-height: 16px; transition: color 0.2s;
+}
+
+/* ---- Messages d'erreur ---- */
+.reset-erreur {
+    font-size: 12px; color: var(--red);
+    margin-top: 5px; min-height: 16px;
+}
+
+/* ---- Boutons ---- */
+.reset-btn-primary {
+    display: block; width: 100%; padding: 13px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: background 0.15s, transform 0.12s;
+    margin-top: 8px;
+}
+.reset-btn-primary:hover    { background: var(--accent2); }
+.reset-btn-primary:active   { transform: scale(0.98); }
+.reset-btn-primary:disabled { background: var(--border); color: var(--text2); cursor: not-allowed; }
+
+.reset-btn-secondary {
+    padding: 13px 18px;
+    background: var(--bg); color: var(--text);
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 8px;
+}
+.reset-btn-secondary:hover { background: var(--border); }
+</style>
+
+<!-- SCRIPTS -->
+<script src="Backend/libs/chart.umd.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="Backend/graph.js"></script>
+<script src="script.js"></script>
+<script src="Backend/reset_mdp.js"></script>
+
+<script>
+// =========================================
+// TOGGLE MENU
+// =========================================
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+
+    if (window.innerWidth > 768) {
+        sidebar.classList.toggle("hidden");
+        localStorage.setItem("sidebarState", sidebar.classList.contains("hidden") ? "hidden" : "open");
+    } else {
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("active");
+    }
+}
+
+document.getElementById("overlay").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("show");
+    document.getElementById("overlay").classList.remove("active");
+});
+
+// Restaurer état sidebar
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const state = localStorage.getItem("sidebarState");
+    if (state === "hidden" && window.innerWidth > 768) {
+        sidebar.classList.add("hidden");
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+[
+    {
+        "admin": "Kelvin",
+        "centre": "Matanda",
+        "email": "matanda22@gmail.com",
+        "service": "Admin",
+        "serveur": "SSH",
+        "password_hash": "9b781e441797ee68e1d44ae5ebc2054f$24b0151d82bd6a0583d670a2dfb40b4d9d738e9bbc05a0d8193225e7a6036cca"
+    },
+    {
+        "admin": "ANSCodes",
+        "centre": "Matanda",
+        "email": "matanda24@gmail.com",
+        "service": "Admin",
+        "serveur": "SSH",
+        "password_hash": "afdbef118021d2521db6218576195ef0$ee4ec99944d48dcfb7239f38554db9d0017ce4ed1a346b6de58b303f333a0380"
+    },
+    {
+        "admin": "Dr",
+        "centre": "Göel",
+        "email": "goelhospi22@gmail.com",
+        "service": "Admin",
+        "serveur": "SSH",
+        "password_hash": "37185e4378cc0549503c080f36789408$8d2ad22434915aeb1418c3e9e2f1b7334273f11526ac13e471d81457fb564c3a"
+    }
+]

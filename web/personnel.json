@@ -1,0 +1,23 @@
+[
+    {
+        "nom": "ANSCodes",
+        "fonction": "Réceptionniste",
+        "specialite": "hg",
+        "experience": "2",
+        "statut": "absent"
+    },
+    {
+        "nom": "KLV",
+        "fonction": "Pharmacien",
+        "specialite": "Hg",
+        "experience": "2",
+        "statut": "absent"
+    },
+    {
+        "nom": "Neil",
+        "fonction": "Réceptionniste",
+        "specialite": "Dg",
+        "experience": "1",
+        "statut": "absent"
+    }
+]

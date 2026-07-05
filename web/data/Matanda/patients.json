@@ -1,0 +1,61 @@
+[
+    {
+        "centre": "Matanda",
+        "nom": "Joseph",
+        "dob": "2008-02-13",
+        "sexe": "M",
+        "tel": "+243975871839",
+        "adresse": "Matanda",
+        "sang": "AB+",
+        "allergies": "hj",
+        "contact": "KLV",
+        "antecedents": "rien",
+        "date_inscription": "2026-06-30",
+        "constantes": {},
+        "consultations": [
+            {
+                "date": "2026-07-01T19:33:00.652Z",
+                "medecin": "ANS",
+                "service": "Pédiatrie",
+                "motif": "Examen",
+                "examen": "Négatif",
+                "diagnostic": "Bien",
+                "traitement": "Sureau",
+                "observations": "Pharmacie"
+            }
+        ],
+        "dossier": "PAT-0001"
+    },
+    {
+        "centre": "Matanda",
+        "nom": "ANSCodes",
+        "dob": "2008-11-22",
+        "sexe": "M",
+        "tel": "+243975871839",
+        "adresse": "Matanda",
+        "sang": "B+",
+        "allergies": "Rien",
+        "contact": "KLV",
+        "antecedents": "Rien en signaler",
+        "date_inscription": "2026-06-30",
+        "constantes": {},
+        "consultations": [],
+        "dossier": "PAT-0002"
+    },
+    {
+        "centre": "Matanda",
+        "nom": "Doyen",
+        "dob": "2005-05-12",
+        "sexe": "M",
+        "tel": "+243975871839",
+        "adresse": "Matanda",
+        "sang": "A-",
+        "allergies": "Sombe",
+        "contact": "Neil",
+        "antecedents": "la tête",
+        "date_inscription": "2026-07-02",
+        "constantes": {},
+        "consultations": [],
+        "dossier": "PAT-0003"
+    }
+]

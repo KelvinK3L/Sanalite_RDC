@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanalite</title>
+    <link rel="stylesheet" href="Nouveau_Personnels.css">
+</head>
+
+<body>
+
+    <div class="tete">
+        <h1>Sanalite_RDC</h1>
+        <p>Digitaliser vos information avec une meilleur securité informatique</p>
+        <h2>Inscription d'un employée</h2>
+    </div>
+
+
+    <div class="menu">
+            <ul>
+                <li><a href="dashboard.html">Accueil</a></li>
+                <li><a href="personnels.html" >Personnels</a></li>
+                <li><a href="Urgence.html">Urgence</a></li>
+                <li><a href="Patients.html" >Patients</a></li>
+                <li><a href="Rendez-vous.html" >Rendez-vous</a></li>
+                <li><a href="Chambres.html" >Chambres</a></li>
+                <li><a href="Pharmacies.html" >Pharmacies</a></li>
+                <li><a href="Comptabilité.html" >Comptabilité</a></li>
+                <li><a href="Factures.html" >Factures</a></li>
+                <li><a href="Mort.html" >Mort</a></li>
+                <li><a href="Parametres.html" >Parametres</a></li>
+            </ul>
+        </div>
+
+        
+    <div class="corps">
+        
+        <input type="text" id="nom_personnel" placeholder="Quel est son nom">
+
+        <input type="text" id="p-nom_personnel" placeholder="Quel est son post-nom">
+        <input type="date" id="date_personnel" placeholder="Quel est sa date de naissance">
+        <input type="email" id="adress_email-personnel" placeholder="Quel est son e-mail">
+        <input type="password" id="mot_de_passe" placeholder="Quel est son mot de passe">
+       
+        <select id="service" aria-placeholder="Quel est votre service">
+            <option value="Quel est votre service">Quel est son service</option>
+            <option value="Réception"> Réception</option>
+            <option value="Consultation">Consultation</option>
+            <option value="laboratoire">Laboratoire</option>
+            <option value="chirurgie">Chirurgie</option>
+            <option value="Technicien">Technicien</option>
+
+        </select>
+
+        <input type="text" placeholder="Le nom de votre serveur ou votre database">
+        <input type="password" placeholder="le mot de passe de votre serveur">
+
+        <div class="sous_pied">
+
+            <button class="btn1" onclick="connecter()">
+                Ajouter
+            </button>
+
+            <button class="btn4" onclick="window.location.href='s_inscrire.html'">
+                Annuler l'ajout
+            </button>
+
+            <button class="Er-brouillon">
+                Enregistrer dans le brouillon
+            </button>
+
+        </div>
+        
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

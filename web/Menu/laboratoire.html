@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratoire SanaLite</title>
+
+<link rel="stylesheet" href="Styles/laboratoire.css">
+</head>
+
+<body>
+
+<header>
+    🧪 SanaLite - Laboratoire Médical
+</header>
+
+<!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="../dashboard.html">🏥 Dashboard</a></li>
+                <li class="active"><a>👥 Personnel</a></li>
+                <li><a href="reception.html">🛎️ Réception</a></li>
+                <li><a href="Consultation.html">🩺 Consultations</a></li>
+                <li><a href="rendezvous.html">📅 Rendez-vous</a></li>
+                <li><a href="pharmacie.html">💊 Pharmacie</a></li>
+                <li><a href="laboratoire.html">🧪 Laboratoire</a></li>
+                <li><a href="facturation.html">💳 Facturation</a></li>
+                <li><a href="urgence.html">🚑 Urgences</a></li>
+                <li><a href="settings.html">⚙️ Paramètres</a></li>
+                <li><span onclick="deconnecter()">🚪 Déconnexion</span></li>
+            </ul>
+        </nav>
+    </aside>
+
+<div class="container">
+
+    <div class="top-section">
+
+        <!-- FORM AJOUT -->
+        <div class="card">
+            <h3>➕ Nouvelle analyse</h3>
+
+            <input type="text" id="patient" placeholder="Nom du patient">
+
+            <select id="type">
+                <option>Glycémie</option>
+                <option>NFS</option>
+                <option>Urine</option>
+                <option>Bactériologie</option>
+            </select>
+
+            <select id="priorite">
+                <option>Normal</option>
+                <option>Urgent</option>
+            </select>
+
+            <button onclick="ajouter()">Ajouter l'analyse</button>
+        </div>
+
+        <!-- VALIDATION -->
+        <div class="card">
+            <h3>📝 Validation résultat</h3>
+
+            <input type="number" id="id" placeholder="ID analyse">
+
+            <textarea id="resultat" placeholder="Résultat médical"></textarea>
+
+            <button onclick="valider()">Valider</button>
+            <button onclick="imprimerPDF()">Imprimer PDF</button>
+        </div>
+
+    </div>
+
+    <!-- TABLEAU -->
+    <div class="card full">
+        <h3>📋 Analyses en cours</h3>
+
+        <input type="text" id="search" oninput="afficher()" placeholder="🔍 Rechercher patient...">
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Échantillon</th>
+                        <th>Patient</th>
+                        <th>Type</th>
+                        <th>Priorité</th>
+                        <th>Statut</th>
+                        <th>Résultat</th>
+                    </tr>
+                </thead>
+
+                <tbody id="liste"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- MODAL UNIQUE -->
+<div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
+
+<div style="background:#1e293b; padding:20px; border-radius:10px; width:400px;">
+    <h3>Détails Analyse</h3>
+    <div id="modalContent"></div>
+
+    <button onclick="closeModal()">Fermer</button>
+</div>
+
+</div>
+
+<script src="Backend/laboratoire.js"></script>
+
+</body>
+</html>

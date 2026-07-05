@@ -1,0 +1,62 @@
+[
+    {
+        "date": "2026-06-29",
+        "total": 3,
+        "presents": 0,
+        "absents": 3,
+        "justifies": 0,
+        "personnel": [
+            {
+                "experience": "2",
+                "fonction": "Réceptionniste",
+                "nom": "ANSCodes",
+                "specialite": "hg",
+                "statut": "absent"
+            },
+            {
+                "experience": "2",
+                "fonction": "Pharmacien",
+                "nom": "KLV",
+                "specialite": "Hg",
+                "statut": "absent"
+            },
+            {
+                "experience": "1",
+                "fonction": "Réceptionniste",
+                "nom": "Neil",
+                "specialite": "Dg",
+                "statut": "absent"
+            }
+        ]
+    },
+    {
+        "date": "2026-06-28",
+        "total": 3,
+        "presents": 2,
+        "absents": 0,
+        "justifies": 1,
+        "personnel": [
+            {
+                "experience": "2",
+                "fonction": "Réceptionniste",
+                "nom": "ANSCodes",
+                "specialite": "hg",
+                "statut": "present"
+            },
+            {
+                "experience": "2",
+                "fonction": "Pharmacien",
+                "nom": "KLV",
+                "specialite": "Hg",
+                "statut": "present"
+            },
+            {
+                "experience": "1",
+                "fonction": "Réceptionniste",
+                "nom": "Neil",
+                "specialite": "Dg",
+                "statut": "justifie"
+            }
+        ]
+    }
+]

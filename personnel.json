@@ -1,0 +1,48 @@
+[
+    {
+        "nom": "ANSCodes",
+        "fonction": "Maintenance",
+        "specialite": "kdf",
+        "experience": "22",
+        "present": true,
+        "statut": "absent"
+    },
+    {
+        "nom": "ANSCodes",
+        "fonction": "Laborantin",
+        "specialite": "sd",
+        "experience": "23",
+        "present": false,
+        "statut": "justifie"
+    },
+    {
+        "nom": "ANSCodes",
+        "fonction": "Infirmier",
+        "specialite": "fjdf",
+        "experience": "2",
+        "present": true,
+        "statut": "present"
+    },
+    {
+        "nom": "ANSCodes",
+        "fonction": "Pharmacien",
+        "specialite": "erezr",
+        "experience": "323",
+        "present": false,
+        "statut": "present"
+    },
+    {
+        "nom": "Kelvin",
+        "fonction": "Chauffeur",
+        "specialite": "Mecanicien",
+        "experience": "5",
+        "statut": "present"
+    },
+    {
+        "nom": "Kambale",
+        "fonction": "Sécurité",
+        "specialite": "Cybersecurité",
+        "experience": "10",
+        "statut": "present"
+    }
+]

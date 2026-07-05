@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Rendez-vous - SanaLite RDC</title>
+    <link rel="stylesheet" href="Styles/rendezvous.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>SanaLite RDC</h1>
+        <p>Liste des Rendez-vous</p>
+        <svg class="pulse-line" viewBox="0 0 600 22" preserveAspectRatio="none">
+            <path d="M0,11 H230 L245,2 L260,20 L275,6 L288,11 H600" />
+        </svg>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" id="recherche" placeholder="Rechercher un patient ou un dossier...">
+        <select id="filtre-statut">
+            <option value="">Tous les statuts</option>
+            <option>Programmé</option>
+            <option>Confirmé</option>
+            <option>Reporté</option>
+            <option>Annulé</option>
+        </select>
+        <span class="spacer"></span>
+        <a class="new-rdv-btn" href="rendezvous.html">+ Nouveau rendez-vous</a>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dossier</th>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Service</th>
+                    <th>Médecin</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+        <div class="empty-state" id="empty-state" style="display:none;">
+            <div class="icon">📅</div>
+            <p>Aucun rendez-vous enregistré pour le moment.</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <button class="darkmode" onclick="changerMode()" title="Changer de thème">🌙</button>
+    <button class="retour"><a href="../dashboard.html">← Dashboard</a></button>
+
+</div>
+
+<script src="Backend/liste-rendezvous.js"></script>
+</body>
+</html>

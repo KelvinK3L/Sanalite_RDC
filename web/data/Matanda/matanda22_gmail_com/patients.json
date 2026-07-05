@@ -1,0 +1,30 @@
+[
+    {
+        "centre": "Matanda",
+        "nom": "Jean Kabila",
+        "dob": "2000-05-01",
+        "sexe": "M",
+        "tel": "+243982248670",
+        "adresse": "vutetse",
+        "sang": "B+",
+        "allergies": "ndf",
+        "contact": "fd",
+        "antecedents": "djf",
+        "date_inscription": "2026-07-05",
+        "constantes": {},
+        "consultations": [
+            {
+                "date": "2026-07-05T14:50:23.389Z",
+                "medecin": "jj",
+                "service": "Gynécologie",
+                "motif": "j",
+                "examen": "h",
+                "diagnostic": "b",
+                "traitement": "k",
+                "observations": "j"
+            }
+        ],
+        "email": "matanda22@gmail.com",
+        "dossier": "PAT-0001"
+    }
+]

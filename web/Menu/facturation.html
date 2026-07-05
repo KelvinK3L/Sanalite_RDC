@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturation Patient — SanaLite RDC</title>
+    <!--
+        IMPORTANT : appliquer le thème AVANT le premier rendu
+        pour éviter le flash blanc → sombre au chargement.
+    -->
+    <script>
+        (function() {
+            if (localStorage.getItem("sanalite_theme") === "sombre") {
+                document.documentElement.classList.add("sombre-early");
+            }
+        })();
+    </script>
+    <style>
+        /* Empêche le flash de thème : applique le fond sombre dès <html> */
+        html.sombre-early body { background: #0f172a !important; }
+    </style>
+    <link rel="stylesheet" href="Styles/facturation.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== TOPBAR ===== -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="logo">🏥 SanaLite_RDC</div>
+            <div class="title">
+                <h1>💳 Facturation Patient</h1>
+                <p>Gestion et suivi des factures hospitalières</p>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="facture-id">Facture #<span id="facture_num">—</span></div>
+            <div class="badge-statut" id="badge_statut">En attente</div>
+            <div class="badge-paye"   id="badge_paye">✓ Soldée</div>
+            <button class="darkmode-btn" id="darkmode_btn" onclick="changerMode()" title="Passer en mode sombre">🌙</button>
+            <button class="btn btn-gray btn-sm" onclick="window.location.href='../dashboard.html'">← Dashboard</button>
+        </div>
+    </div>
+
+    <!-- ===== PATIENT + FACTURE ===== -->
+    <div class="two-col">
+
+        <!-- PATIENT -->
+        <div class="card">
+            <h3>Informations patient</h3>
+
+            <div class="field">
+                <label for="nom_patient">Nom complet *</label>
+                <input type="text" id="nom_patient" placeholder="Ex : MBEKI Jean-Paul" autocomplete="off">
+                <span class="err-msg" id="err_nom"></span>
+            </div>
+
+            <div class="field-row col2">
+                <div class="field">
+                    <label for="dossier">N° dossier *</label>
+                    <input type="text" id="dossier" placeholder="DOS-2025-####" autocomplete="off">
+                    <span class="err-msg" id="err_dossier"></span>
+                </div>
+                <div class="field">
+                    <label for="telephone">Téléphone</label>
+                    <input type="tel" id="telephone" placeholder="+243 8X XXX XXXX">
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="date_naissance">Date de naissance</label>
+                <input type="date" id="date_naissance">
+            </div>
+        </div>
+
+        <!-- FACTURE -->
+        <div class="card">
+            <h3>Informations facture</h3>
+
+            <div class="field-row col2">
+                <div class="field">
+                    <label for="date_emission">Date d'émission</label>
+                    <input type="date" id="date_emission">
+                </div>
+                <div class="field">
+                    <label for="echeance">Échéance</label>
+                    <input type="date" id="echeance">
+                </div>
+            </div>
+
+            <div class="field-row col2">
+                <div class="field">
+                    <label for="cree_par">Créé par</label>
+                    <input type="text" id="cree_par" placeholder="Nom de l'agent">
+                </div>
+                <div class="field">
+                    <label for="valide_par">Validé par</label>
+                    <input type="text" id="valide_par" placeholder="Nom du validateur">
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="notes">Notes internes</label>
+                <input type="text" id="notes" placeholder="Observations, remarques…">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== ACTES & SOINS ===== -->
+    <div class="card">
+        <h3>Actes &amp; soins</h3>
+
+        <div class="add-row">
+            <div class="field" style="margin-bottom:0">
+                <label for="designation">Désignation</label>
+                <input type="text" id="designation" placeholder="Ex : Consultation générale">
+            </div>
+            <div class="field" style="margin-bottom:0">
+                <label for="categorie">Catégorie</label>
+                <select id="categorie">
+                    <option>Consultation</option>
+                    <option>Analyse</option>
+                    <option>Médicament</option>
+                    <option>Chirurgie</option>
+                    <option>Hospitalisation</option>
+                    <option>Radiologie</option>
+                    <option>Autre</option>
+                </select>
+            </div>
+            <div class="field" style="margin-bottom:0">
+                <label for="quantite">Qté</label>
+                <input type="number" id="quantite" placeholder="1" min="1" value="1">
+            </div>
+            <div class="field" style="margin-bottom:0">
+                <label for="pu">P.U (FC)</label>
+                <input type="number" id="pu" placeholder="0" min="0">
+            </div>
+            <button class="btn btn-blue" onclick="ajouter()">+ Ajouter</button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:40px">#</th>
+                        <th>Désignation</th>
+                        <th>Catégorie</th>
+                        <th style="text-align:right">Qté</th>
+                        <th style="text-align:right">P.U</th>
+                        <th style="text-align:right">Total</th>
+                        <th style="width:40px"></th>
+                    </tr>
+                </thead>
+                <tbody id="table_body"></tbody>
+            </table>
+        </div>
+
+        <div class="totaux">
+            <div class="totaux-ligne">
+                <span>Sous-total</span>
+                <span id="sous_total">0 FC</span>
+            </div>
+            <div class="totaux-ligne">
+                <div class="remise-inline">
+                    <span>Remise</span>
+                    <input type="number" id="remise" value="0" min="0" max="100">
+                    <span>%</span>
+                </div>
+                <span id="montant_remise" class="color-danger">- 0 FC</span>
+            </div>
+            <div class="totaux-ligne total-final">
+                <span>Total à payer</span>
+                <span id="total_final">0 FC</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAIEMENT ===== -->
+    <div class="card">
+        <h3>Paiement</h3>
+
+        <div class="field-row col2">
+            <div class="field">
+                <label for="mode_paiement">Mode de paiement</label>
+                <select id="mode_paiement">
+                    <option>Espèces</option>
+                    <option>Carte bancaire</option>
+                    <option>Mobile Money</option>
+                    <option>Virement bancaire</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="reference">Référence / N° reçu</label>
+                <input type="text" id="reference" placeholder="Ex : MM-20250628-001">
+            </div>
+            <div class="field">
+                <label for="montant_recu">Montant reçu (FC)</label>
+                <input type="number" id="montant_recu" placeholder="0" min="0">
+            </div>
+            <div class="field">
+                <label>Reste à payer</label>
+                <div class="solde-display" id="solde_display">0 FC</div>
+            </div>
+        </div>
+
+        <div class="reste-alerte" id="reste_alerte">
+            ⚠ Paiement incomplet — reste dû : <strong><span id="reste_val">0 FC</span></strong>
+        </div>
+
+        <div class="actions-bar">
+            <button class="btn btn-red"   onclick="annuler()">✕ Annuler</button>
+            <button class="btn btn-gray"  onclick="reinitialiser()">↺ Nouvelle facture</button>
+            <button class="btn btn-green" onclick="enregistrer()">✓ Enregistrer</button>
+            <button class="btn btn-blue"  onclick="imprimer()">🖨 Imprimer</button>
+        </div>
+    </div>
+
+</div><!-- /container -->
+
+<script src="Backend/facturation.js"></script>
+</body>
+</html>

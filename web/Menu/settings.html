@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - SanaLite RDC</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="../dashboard.html">🏥 Dashboard</a>
+            </li>
+
+            <li>
+                <a href="reception.html">🛎️ Réception</a>
+            </li>
+
+            <li>
+                <a href="Consultation.html">🩺 Consultations</a>
+            </li>
+
+            <li>
+                <a href="Medecins.html">👥 Personnel</a>
+            </li>
+
+            <li>
+                <a href="rendezvous.html">📅 Rendez-vous</a>
+            </li>
+
+            <li>
+                <a href="pharmacie.html">💊 Pharmacie</a>
+            </li>
+
+            <li>
+                <a href="laboratoire.html">🧪 Laboratoire</a>
+            </li>
+
+            <li>
+                <a href="facturation.html">💳 Facturation</a>
+            </li>
+
+            <li>
+                <a href="urgence.html">🚑 Urgences</a>
+            </li>
+
+            <li class="active">
+                <a>⚙️ Paramètres</a>
+            </li>
+
+            <li>
+                <span onclick="deconnecter()">🚪 Déconnexion</span>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h1>Paramètres Système</h1>
+                <p>Configuration générale de SanaLite RDC</p>
+            </div>
+
+            <div class="profil">
+                <img src="../media/logo.jpeg" alt="Logo">
+            </div>
+
+        </header>
+
+        <!-- HOPITAL -->
+
+        <section class="card">
+
+            <h2>🏥 Informations de l'Hôpital</h2>
+
+            <div class="form-grid">
+
+                <input type="text" id="nomHopital" placeholder="Nom de l'hôpital">
+
+                <input type="text" id="telephoneHopital" placeholder="Téléphone">
+
+                <input type="email" id="emailHopital" placeholder="Email">
+
+                <input type="text" id="adresseHopital" placeholder="Adresse">
+
+                <input type="text" id="villeHopital" placeholder="Ville">
+
+                <button onclick="sauvegarderHopital()">
+                    Enregistrer
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- ADMINISTRATEUR -->
+
+        <section class="card">
+
+            <h2>👤 Administrateur Principal</h2>
+
+            <div class="form-grid">
+
+                <input type="text" id="adminUser" placeholder="Nom utilisateur">
+
+                <input type="password" id="adminPass" placeholder="Mot de passe">
+
+                <button onclick="sauvegarderAdmin()">
+                    Mettre à jour
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- COMPTES SERVICES -->
+
+        <section class="card">
+
+            <h2>🔐 Comptes des Services</h2>
+
+            <div class="form-grid">
+
+                <!-- Réception -->
+                <input type="text" id="userReception" placeholder="Utilisateur Réception">
+                <input type="password" id="passReception" placeholder="Mot de passe Réception">
+
+                <!-- Consultation -->
+                <input type="text" id="userConsultation" placeholder="Utilisateur Consultation">
+                <input type="password" id="passConsultation" placeholder="Mot de passe Consultation">
+
+                <!-- Laboratoire -->
+                <input type="text" id="userLaboratoire" placeholder="Utilisateur Laboratoire">
+                <input type="password" id="passLaboratoire" placeholder="Mot de passe Laboratoire">
+
+                <!-- Pharmacie -->
+                <input type="text" id="userPharmacie" placeholder="Utilisateur Pharmacie">
+                <input type="password" id="passPharmacie" placeholder="Mot de passe Pharmacie">
+
+                <!-- Facturation -->
+                <input type="text" id="userFacturation" placeholder="Utilisateur Facturation">
+                <input type="password" id="passFacturation" placeholder="Mot de passe Facturation">
+
+                <!-- Urgence -->
+                <input type="text" id="userUrgence" placeholder="Utilisateur Urgence">
+                <input type="password" id="passUrgence" placeholder="Mot de passe Urgence">
+
+                <!-- Personnel -->
+                <input type="text" id="userPersonnel" placeholder="Utilisateur Personnel">
+                <input type="password" id="passPersonnel" placeholder="Mot de passe Personnel">
+
+                <button onclick="sauvegarderServices()">
+                    Sauvegarder les Comptes
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- CONFIGURATION -->
+
+        <section class="card">
+
+            <h2>📊 Configuration</h2>
+
+            <div class="form-grid">
+
+                <select id="devise">
+
+                    <option value="USD">USD ($)</option>
+
+                    <option value="CDF">CDF (FC)</option>
+
+                </select>
+
+                <select id="numerotation">
+
+                    <option value="auto">
+                        Numérotation automatique
+                    </option>
+
+                    <option value="manuel">
+                        Numérotation manuelle
+                    </option>
+
+                </select>
+
+                <button onclick="sauvegarderConfiguration()">
+                    Sauvegarder
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- SAUVEGARDE -->
+
+        <section class="card">
+
+            <h2>💾 Sauvegarde & Sécurité</h2>
+
+            <div class="form-grid">
+
+                <button onclick="exporterDonnees()">
+                    📦 Exporter les données
+                </button>
+
+                <button onclick="importerDonnees()">
+                    📂 Restaurer les données
+                </button>
+
+                <button onclick="viderSysteme()"
+                style="background:red;">
+                    🗑 Réinitialiser le système
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- A PROPOS -->
+
+        <section class="card">
+
+            <h2>ℹ️ À propos</h2>
+
+            <p><strong>Nom :</strong> SanaLite RDC</p>
+
+            <p><strong>Version :</strong> 1.0</p>
+
+            <p><strong>Type :</strong> Logiciel de Gestion Hospitalière</p>
+
+            <p><strong>Développeur :</strong> NAJKSOFT</p>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

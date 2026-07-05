@@ -1,0 +1,30 @@
+[
+    {
+        "centre": "Göel",
+        "nom": "Joseph",
+        "dob": "2008-02-13",
+        "sexe": "M",
+        "tel": "+243975871839",
+        "adresse": "Matanda",
+        "sang": "AB+",
+        "allergies": "Rien",
+        "contact": "ANSCodes",
+        "antecedents": "Rien à spécialisée",
+        "date_inscription": "2026-07-04",
+        "constantes": {},
+        "consultations": [
+            {
+                "date": "2026-07-05T07:26:17.666Z",
+                "medecin": "Dr Kelvin",
+                "service": "Médecine générale",
+                "motif": "le corp",
+                "examen": "dsjd",
+                "diagnostic": "jxx,x",
+                "traitement": "kxkkxkxk",
+                "observations": "labo"
+            }
+        ],
+        "email": "goelhospi22@gmail.com",
+        "dossier": "PAT-0001"
+    }
+]

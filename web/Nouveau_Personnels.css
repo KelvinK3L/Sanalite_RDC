@@ -1,0 +1,287 @@
+
+*{
+    box-sizing: border-box;
+}
+
+
+body{
+    background: linear-gradient(to right, #70afee, #ffffff);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* CONTENEUR PRINCIPAL */
+.container{
+    width: 100%;
+    max-width: 420px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* EN-TÊTE */
+.tete{
+   background: linear-gradient(135deg, rgb(10, 10, 237), rgb(0, 132, 255));
+    padding: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px 25px 0px 0px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-bottom: 4px solid #ffffff33;
+    width: 100%;
+}
+
+h1{
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+p {
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    font-size: 16px;
+}
+
+h2{
+    color: #ffffff;
+    text-align: center;
+}
+
+/* MENU */
+.menu{
+    width: 100%;
+    padding: 15px 0;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+    border-radius: 20px;
+}
+
+.menu ul{
+    padding: 0;
+}
+
+.menu ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #5f7192; 
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.menu ul li a:hover{
+    transform: translateY(-2px);
+    color: rgb(0, 132, 255);
+}
+
+/* CORPS DASHBOARD */
+.s-corps{
+    display: flex;
+    flex-wrap: wrap; /* IMPORTANT pour mobile */
+    justify-content: center;
+    gap: 20px;
+    color: #5f7192;
+    font-family: sans-serif;
+    width: 100%;
+}
+
+/* CARDS (AU LIEU DE 4 CLASSES DIFFERENTES) */
+.Patients,
+.Urgences,
+.Rendez-vous,
+.Chambres{
+    background: transparent;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 200px;
+    height: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Patients, .Urgences, .Chambres, .Rendez-vous {
+    margin-top: 20px;
+}
+
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 500px){
+
+    .container{
+        max-width: 95%;
+    }
+
+    .Patients,
+    .Urgences,
+    .Rendez-vous,
+    .Chambres{
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .menu ul li{
+        display: block;
+        margin: 8px 0;
+    }
+}
+
+input{
+    width: 50%;
+    padding: 14px;
+    border-radius: 20px;
+    border: 1px solid #d7dce5;
+    margin: 5px 0;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+    background: #f9fbfd;
+    display: grid;
+}
+
+input:focus{
+    border: 1px solid rgb(10, 10, 237);
+    box-shadow: 0 0 8px rgba(10, 10, 237, 0.2);
+    background: white;
+}
+
+select {
+    width: 50%;
+    padding: 14px;
+    border-radius: 15px;
+    border: 1px solid #d7dce5;
+    margin: 5px 0;
+    font-size: 15px;
+    outline: none;
+    transition: 0.5s;
+    background: #f9fbfd;
+    color: #535355;
+}
+select:focus{
+    border: 1px solid rgb(10, 10, 237);
+    box-shadow: 0 0 8px rgba(10, 10, 237, 0.2);
+    background: white;
+}
+
+.sous_pied{
+    display: flex;
+    
+}
+.btn1{
+    padding: 12px;
+    border-radius: 15px;
+    border: 0;
+    margin-top: 10px;
+    width: 120px;
+    background: linear-gradient(to right, rgb(10, 10, 237), rgb(0, 132, 255));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn1:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(10, 10, 237, 0.3);
+}
+
+.btn2{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    margin-top: 10px;
+    width: 120px;
+    background: linear-gradient(to right, green, rgb(44, 180, 44));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    height: 40px;
+}
+
+.btn2:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 128, 0, 0.3);
+}
+
+.btn3{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    margin-top: 10px;
+    width: 180px;
+    background: linear-gradient(to right, rgb(237, 29, 29), rgb(255, 72, 72));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn3:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(237, 29, 29, 0.3);
+}
+
+.btn4{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    width: 130px;
+    background: linear-gradient(to right, rgb(80, 180, 33), rgb(117, 221, 68));
+    color: #f3f3f3;
+    font-weight: bold;
+    margin-left: 170px;
+    display: flex;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 5px;
+    margin-top: 10px;
+    display: grid;
+}
+.Er-brouillon{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    width: 130px;
+    background: linear-gradient(to right, rgb(248, 73, 29), rgb(86, 63, 46));
+    color: #f3f3f3;
+    font-weight: bold;
+    margin-left: 170px;
+    display: flex;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 5px;
+    margin-top: 10px;
+    display: flex;
+}
+
+
+.btn4:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(80, 180, 33, 0.3);
+}
+.Er-brouillon:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(80, 180, 33, 0.3);
+}

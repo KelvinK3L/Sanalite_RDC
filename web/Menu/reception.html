@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réception — SanaLite RDC</title>
+    <link rel="stylesheet" href="Styles/personnel.css">
+    
+    <style>
+        /* =========================================
+           VARIABLES & BASE
+        ========================================= */
+        :root {
+            --bg:        #f1f5f9;
+            --surface:   #ffffff;
+            --sidebar:   #0f172a;
+            --accent:    #2563eb;
+            --accent2:   #1d4ed8;
+            --green:     #16a34a;
+            --orange:    #d97706;
+            --red:       #dc2626;
+            --teal:      #0d9488;
+            --purple:    #7c3aed;
+            --text:      #0f172a;
+            --text2:     #64748b;
+            --border:    #e2e8f0;
+            --shadow:    0 4px 20px rgba(0,0,0,.07);
+            --radius:    14px;
+        }
+        body.sombre {
+            --bg:      #020617;
+            --surface: #0f172a;
+            --text:    #f1f5f9;
+            --text2:   #94a3b8;
+            --border:  #1e293b;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Segoe UI',Arial,sans-serif; transition:background .3s,color .3s; }
+
+        /* =========================================
+           LAYOUT
+        ========================================= */
+        .container { display:flex; }
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+        .sidebar {
+            width:260px; height:100vh; background:var(--sidebar);
+            color:#fff; padding:24px 16px; position:fixed;
+            left:0; top:0; z-index:100;
+            transition:transform .3s ease;
+            box-shadow:4px 0 24px rgba(0,0,0,.18);
+            overflow-y:auto; overflow-x:hidden;
+            display:flex; flex-direction:column;
+        }
+        .sidebar::-webkit-scrollbar { width:4px; }
+        .sidebar::-webkit-scrollbar-track { background:transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+        .sidebar.hidden { transform:translateX(-100%); }
+
+        .logo { padding:0 8px; margin-bottom:32px; flex-shrink:0; }
+        .logo h2 { color:#38bdf8; font-size:20px; font-weight:700; }
+        .logo p  { color:#94a3b8; font-size:12px; margin-top:2px; }
+
+        .menu { list-style:none; display:flex; flex-direction:column; gap:4px; flex:1; padding-bottom:16px; }
+        .menu li a, .menu li span {
+            display:flex; align-items:center; gap:10px;
+            padding:11px 14px; border-radius:10px;
+            color:#cbd5e1; text-decoration:none; font-size:14px;
+            cursor:pointer; transition:.2s; white-space:nowrap;
+        }
+        .menu li a:hover, .menu li span:hover { background:#1e293b; color:#fff; }
+        .menu li.active a { background:var(--accent); color:#fff; }
+
+        /* =========================================
+           BOUTON MENU
+        ========================================= */
+        .menu-btn {
+            position:fixed; top:20px; left:270px; z-index:200;
+            background:var(--accent); border:none; border-radius:10px;
+            width:38px; height:38px; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(37,99,235,.4); transition:.3s;
+        }
+        .menu-btn:hover { background:var(--accent2); }
+        .menu-btn img { width:20px; filter:invert(1); }
+        .sidebar.hidden ~ .main .menu-btn { left:16px; }
+
+        /* =========================================
+           MAIN
+        ========================================= */
+        .main {
+            margin-left:260px; width:calc(100% - 260px);
+            padding:28px 28px 28px 66px;
+            transition:margin-left .3s, width .3s;
+        }
+        .sidebar.hidden ~ .main { margin-left:0; width:100%; padding-left:66px; }
+
+        /* =========================================
+           TOPBAR
+        ========================================= */
+        .topbar {
+            background:var(--surface); border-radius:var(--radius);
+            padding:18px 24px; display:flex; justify-content:space-between;
+            align-items:center; box-shadow:var(--shadow);
+            margin-bottom:24px; border:1px solid var(--border);
+        }
+        .topbar h1 { font-size:20px; font-weight:700; }
+        .topbar p  { color:var(--text2); font-size:13px; margin-top:2px; }
+        .profil img { width:46px; height:46px; border-radius:50%; object-fit:cover; border:3px solid #38bdf8; }
+
+        /* =========================================
+           CARDS STATS
+        ========================================= */
+        .cards {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+            gap:16px; margin-bottom:24px;
+        }
+        .card {
+            background:var(--surface); border-radius:var(--radius);
+            padding:18px; box-shadow:var(--shadow); border:1px solid var(--border);
+        }
+        .card h3 { font-size:12px; color:var(--text2); font-weight:600; margin-bottom:6px; }
+        .card h2 { font-size:28px; font-weight:700; }
+        .card span { font-size:12px; color:var(--text2); }
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+        .section {
+            background:var(--surface); border-radius:var(--radius);
+            padding:22px; box-shadow:var(--shadow);
+            border:1px solid var(--border); margin-bottom:20px;
+        }
+        .section-title {
+            font-size:16px; font-weight:700; margin-bottom:16px;
+            display:flex; align-items:center; justify-content:space-between; gap:8px;
+        }
+        .section-title span { display:flex; align-items:center; gap:8px; }
+
+        /* =========================================
+           FORMULAIRES
+        ========================================= */
+        .form-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:12px;
+        }
+        .form-group { display:flex; flex-direction:column; gap:5px; }
+        .form-group label { font-size:12px; font-weight:600; color:var(--text2); }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding:11px 14px; border-radius:10px;
+            border:1px solid var(--border); font-size:14px;
+            background:var(--bg); color:var(--text);
+            outline:none; transition:.2s; font-family:inherit;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.1);
+        }
+        .form-group textarea { resize:vertical; min-height:80px; }
+        .form-full { grid-column:1/-1; }
+
+        .btn-primary {
+            background:var(--accent); color:#fff; border:none;
+            border-radius:10px; padding:11px 20px; font-size:14px;
+            font-weight:600; cursor:pointer; transition:.2s;
+            display:inline-flex; align-items:center; gap:6px;
+        }
+        .btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
+        .btn-success { background:var(--green); }
+        .btn-success:hover { background:#15803d; }
+        .btn-orange { background:var(--orange); }
+        .btn-orange:hover { background:#b45309; }
+        .btn-teal   { background:var(--teal); }
+        .btn-teal:hover   { background:#0f766e; }
+        .btn-red    { background:var(--red); }
+        .btn-red:hover    { background:#b91c1c; }
+
+        /* =========================================
+           RECHERCHE PATIENT
+        ========================================= */
+        .search-bar {
+            display:flex; gap:10px; margin-bottom:16px;
+        }
+        .search-bar input {
+            flex:1; padding:12px 16px; border-radius:10px;
+            border:1px solid var(--border); font-size:14px;
+            background:var(--bg); color:var(--text); outline:none; transition:.2s;
+        }
+        .search-bar input:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        /* Résultats de recherche */
+        #searchResults {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:10px; overflow:hidden;
+            box-shadow:var(--shadow); display:none;
+            max-height:280px; overflow-y:auto;
+        }
+        .search-item {
+            padding:12px 16px; cursor:pointer; transition:.15s;
+            border-bottom:1px solid var(--border);
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .search-item:last-child { border-bottom:none; }
+        .search-item:hover { background:rgba(37,99,235,.06); }
+        .search-item .dossier-num { font-weight:700; color:var(--accent); font-size:13px; }
+        .search-item .patient-info { font-size:13px; }
+        .search-item .patient-age  { font-size:12px; color:var(--text2); }
+
+        /* =========================================
+           FICHE PATIENT SÉLECTIONNÉ
+        ========================================= */
+        #fichePatient { display:none; }
+
+        .patient-header {
+            display:flex; align-items:center; gap:20px;
+            padding:20px; background:linear-gradient(135deg,#1e40af,#2563eb);
+            border-radius:12px; color:#fff; margin-bottom:20px;
+        }
+        .patient-avatar {
+            width:64px; height:64px; border-radius:50%;
+            background:rgba(255,255,255,.2);
+            display:flex; align-items:center; justify-content:center;
+            font-size:28px; font-weight:700; flex-shrink:0;
+        }
+        .patient-header h2 { font-size:20px; font-weight:700; margin-bottom:4px; }
+        .patient-header .meta { font-size:13px; opacity:.85; }
+        .patient-header .dossier-badge {
+            margin-left:auto; background:rgba(255,255,255,.2);
+            padding:8px 16px; border-radius:20px;
+            font-size:13px; font-weight:700; white-space:nowrap;
+        }
+
+        /* Onglets */
+        .tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); }
+        .tab-btn {
+            padding:10px 18px; border:none; background:none;
+            font-size:13px; font-weight:600; color:var(--text2);
+            cursor:pointer; transition:.2s; border-bottom:2px solid transparent;
+            margin-bottom:-2px;
+        }
+        .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+        .tab-btn:hover  { color:var(--text); }
+
+        .tab-content { display:none; }
+        .tab-content.active { display:block; }
+
+        /* Constantes vitales */
+        .constantes-grid {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+            gap:12px; margin-bottom:20px;
+        }
+        .constante-card {
+            background:var(--bg); border-radius:10px; padding:14px;
+            border:1px solid var(--border); text-align:center;
+        }
+        .constante-card .icon { font-size:24px; margin-bottom:6px; }
+        .constante-card .valeur { font-size:20px; font-weight:700; color:var(--accent); }
+        .constante-card .label { font-size:11px; color:var(--text2); margin-top:2px; }
+
+        /* Historique consultations */
+        .consultation-item {
+            border:1px solid var(--border); border-radius:10px;
+            margin-bottom:12px; overflow:hidden;
+        }
+        .consultation-header {
+            background:var(--bg); padding:12px 16px;
+            display:flex; justify-content:space-between; align-items:center;
+            cursor:pointer; transition:.15s;
+        }
+        .consultation-header:hover { background:rgba(37,99,235,.05); }
+        .consultation-header .date { font-size:13px; font-weight:700; }
+        .consultation-header .medecin-nom { font-size:12px; color:var(--text2); }
+        .consultation-body { padding:16px; display:none; font-size:13px; }
+        .consultation-body.open { display:block; }
+        .consultation-body .field { margin-bottom:10px; }
+        .consultation-body .field strong { display:block; font-size:12px; color:var(--text2); margin-bottom:2px; }
+
+        /* =========================================
+           LISTE PATIENTS (tableau)
+        ========================================= */
+        .table-wrapper { overflow-x:auto; border-radius:12px; border:1px solid var(--border); }
+        table { width:100%; border-collapse:collapse; font-size:13px; }
+        thead { background:var(--accent); color:#fff; }
+        thead th { padding:12px 14px; text-align:left; font-weight:600; font-size:12px; }
+        tbody tr { transition:.15s; }
+        tbody tr:nth-child(even) { background:var(--bg); }
+        tbody tr:hover { background:rgba(37,99,235,.05); }
+        tbody td { padding:11px 14px; border-bottom:1px solid var(--border); }
+        .badge {
+            display:inline-flex; align-items:center; gap:4px;
+            padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600;
+        }
+        .badge-blue   { background:#dbeafe; color:#1d4ed8; }
+        .badge-green  { background:#dcfce7; color:#15803d; }
+        .badge-orange { background:#fef3c7; color:#b45309; }
+        .badge-red    { background:#fee2e2; color:#b91c1c; }
+
+        
+
+        /* =========================================
+           POPUP IMPRESSION
+        ========================================= */
+        .popup {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.6); backdrop-filter:blur(4px);
+            justify-content:center; align-items:center; z-index:9999;
+        }
+        .popup-content {
+            width:700px; max-width:95vw; max-height:90vh;
+            background:var(--surface); border-radius:20px;
+            box-shadow:0 24px 60px rgba(0,0,0,.25);
+            overflow:hidden; display:flex; flex-direction:column;
+            animation:popIn .25s ease;
+        }
+        @keyframes popIn {
+            from { transform:scale(.92); opacity:0; }
+            to   { transform:scale(1);   opacity:1; }
+        }
+        .popup-header {
+            background:var(--accent); color:#fff;
+            padding:18px 24px; display:flex;
+            justify-content:space-between; align-items:center; flex-shrink:0;
+        }
+        .popup-header h2 { font-size:16px; font-weight:700; }
+        .popup-header .close-btn {
+            background:rgba(255,255,255,.2); border:none; color:#fff;
+            width:30px; height:30px; border-radius:50%;
+            font-size:16px; cursor:pointer; display:flex;
+            align-items:center; justify-content:center;
+        }
+        .popup-body { padding:24px; overflow-y:auto; flex:1; }
+
+        /* =========================================
+           DOSSIER IMPRIMABLE
+        ========================================= */
+        .dossier-print { font-size:13px; }
+        .dossier-print .entete {
+            display:flex; justify-content:space-between;
+            align-items:flex-start; padding-bottom:16px;
+            border-bottom:2px solid var(--accent); margin-bottom:20px;
+        }
+        .dossier-print .hopital-name { font-size:18px; font-weight:700; color:var(--accent); }
+        .dossier-print .hopital-sub  { font-size:12px; color:var(--text2); }
+        .dossier-print .dossier-ref  { text-align:right; font-size:12px; color:var(--text2); }
+        .dossier-print .dossier-ref strong { font-size:16px; color:var(--text); display:block; }
+        .dossier-print h3 {
+            font-size:13px; font-weight:700; color:var(--accent);
+            margin:16px 0 10px; text-transform:uppercase; letter-spacing:.5px;
+        }
+        .print-grid {
+            display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; margin-bottom:16px;
+        }
+        .print-field { border-bottom:1px solid var(--border); padding:5px 0; }
+        .print-field .lbl { font-size:11px; color:var(--text2); }
+        .print-field .val { font-size:13px; font-weight:600; }
+        .print-constantes {
+            display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px;
+        }
+        .print-const {
+            background:var(--bg); border-radius:8px; padding:10px;
+            text-align:center; border:1px solid var(--border);
+        }
+        .print-const .pc-val { font-size:16px; font-weight:700; color:var(--accent); }
+        .print-const .pc-lbl { font-size:10px; color:var(--text2); }
+        .print-consult {
+            background:var(--bg); border-radius:8px; padding:12px;
+            margin-bottom:10px; border:1px solid var(--border);
+        }
+        .print-consult .pc-date { font-size:11px; color:var(--text2); margin-bottom:6px; }
+
+        /* =========================================
+           OVERLAY & RESPONSIVE
+        ========================================= */
+        .overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.5); z-index:99;
+        }
+        .overlay.active { display:block; }
+
+        @media (max-width:768px) {
+            .sidebar { transform:translateX(-100%); width:220px; }
+            .sidebar.show { transform:translateX(0); }
+            .menu-btn { left:16px; top:16px; }
+            .main { margin-left:0; width:100%; padding:16px 16px 16px 64px; }
+            .sidebar.hidden ~ .main { padding-left:64px; }
+            .cards { grid-template-columns:repeat(2,1fr); }
+            .patient-header { flex-wrap:wrap; }
+            .patient-header .dossier-badge { margin-left:0; }
+            .print-constantes { grid-template-columns:repeat(2,1fr); }
+            .print-grid { grid-template-columns:1fr; }
+        }
+
+        /* =========================================
+           @PRINT
+        ========================================= */
+        @media print {
+            .sidebar, .menu-btn, .darkmode, .topbar .profil,
+            .tabs, .btn-primary, .search-bar, .cards { display:none !important; }
+            .main { margin-left:0; width:100%; padding:0; }
+            .popup { display:flex !important; position:relative; background:none; }
+            .popup-content { box-shadow:none; max-height:none; }
+            .popup-header { background:#2563eb !important; }
+            body { background:#fff; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
+
+    <!-- BOUTON MENU -->
+    <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" title="Menu">
+        <img src="photo/menu .png" alt="Menu">
+    </button>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="../dashboard.html">🏥 Dashboard</a></li>
+                <li><a href="Medecins.html">👥 Personnel</a></li>
+                <li class="active"><a>🛎️ Réception</a></li>
+                <li><a href="Consultation.html">🩺 Consultations</a></li>
+                <li><a href="rendezvous.html">📅 Rendez-vous</a></li>
+                <li><a href="pharmacie.html">💊 Pharmacie</a></li>
+                <li><a href="laboratoire.html">🧪 Laboratoire</a></li>
+                <li><a href="facturation.html">💳 Facturation</a></li>
+                <li><a href="urgence.html">🚑 Urgences</a></li>
+                <li><a href="settings.html">⚙️ Paramètres</a></li>
+                <li><span onclick="deconnecter()">🚪 Déconnexion</span></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <h1>🛎️ Réception & Consultations</h1>
+                <p>Enregistrement des patients et suivi des consultations</p>
+            </div>
+            <div class="profil">
+                <img src="../media/logo.jpeg" alt="Logo">
+            </div>
+        </header>
+
+        <!-- STATISTIQUES -->
+        <section class="cards">
+            <div class="card">
+                <h3>👥 Total Patients</h3>
+                <h2 id="statTotal" style="color:var(--accent)">0</h2>
+                <span>Dossiers enregistrés</span>
+            </div>
+            <div class="card">
+                <h3>📅 Aujourd'hui</h3>
+                <h2 id="statAujourdhui" style="color:var(--green)">0</h2>
+                <span>Patients reçus</span>
+            </div>
+            <div class="card">
+                <h3>🩺 Consultations</h3>
+                <h2 id="statConsultations" style="color:var(--teal)">0</h2>
+                <span>Ce mois-ci</span>
+            </div>
+            <div class="card">
+                <h3>⏳ En attente</h3>
+                <h2 id="statAttente" style="color:var(--orange)">0</h2>
+                <span>File d'attente</span>
+            </div>
+        </section>
+
+        <!-- =============================================
+             SECTION 1 : INSCRIRE UN NOUVEAU PATIENT
+        ============================================= -->
+        <section class="section">
+            <div class="section-title">
+                <span>➕ Enregistrer un nouveau patient</span>
+                <button class="btn-primary btn-success" onclick="toggleFormInscription()">
+                    ✏️ Nouveau patient
+                </button>
+            </div>
+
+            <div id="formInscription" style="display:none">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nom complet *</label>
+                        <input type="text" id="p_nom" placeholder="Ex: Jean Kabila">
+                    </div>
+                    <div class="form-group">
+                        <label>Date de naissance *</label>
+                        <input type="date" id="p_dob">
+                    </div>
+                    <div class="form-group">
+                        <label>Sexe *</label>
+                        <select id="p_sexe">
+                            <option value="">Choisir...</option>
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <input type="tel" id="p_tel" placeholder="+243 XXX XXX XXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Adresse</label>
+                        <input type="text" id="p_adresse" placeholder="Quartier, Commune">
+                    </div>
+                    <div class="form-group">
+                        <label>Groupe sanguin</label>
+                        <select id="p_sang">
+                            <option value="">Inconnu</option>
+                            <option>A+</option><option>A-</option>
+                            <option>B+</option><option>B-</option>
+                            <option>AB+</option><option>AB-</option>
+                            <option>O+</option><option>O-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Allergies connues</label>
+                        <input type="text" id="p_allergies" placeholder="Ex: Pénicilline, Aspirine...">
+                    </div>
+                    <div class="form-group">
+                        <label>Personne à contacter</label>
+                        <input type="text" id="p_contact" placeholder="Nom & téléphone">
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Antécédents médicaux</label>
+                        <textarea id="p_antecedents" placeholder="Maladies chroniques, opérations passées, traitements en cours..."></textarea>
+                    </div>
+                </div>
+                <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-primary btn-success" onclick="inscrirePatient()">
+                        💾 Enregistrer le patient
+                    </button>
+                    <button class="btn-primary btn-red" onclick="toggleFormInscription()">
+                        ✕ Annuler
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             SECTION 2 : RECHERCHE & CONSULTATION
+        ============================================= -->
+        <section class="section">
+            <div class="section-title">
+                <span>🔍 Rechercher un patient</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput"
+                       placeholder="N° dossier ou nom du patient..."
+                       oninput="rechercherPatient(this.value)">
+                <button class="btn-primary" onclick="rechercherPatient(document.getElementById('searchInput').value)">
+                    🔍 Rechercher
+                </button>
+            </div>
+            <div id="searchResults"></div>
+
+            <!-- FICHE PATIENT -->
+            <div id="fichePatient">
+
+                <!-- En-tête patient -->
+                <div class="patient-header" id="patientHeader"></div>
+
+                <!-- Boutons d'action -->
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+                    <button class="btn-primary btn-orange" onclick="allerEnConsultation()">
+                        🩺 Aller en consultation
+                    </button>
+                    <button class="btn-primary btn-teal" onclick="imprimerDossier()">
+                        🖨️ Imprimer le dossier
+                    </button>
+                </div>
+
+                <!-- Onglets -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('constantes')">💓 Constantes vitales</button>
+                    <button class="tab-btn" onclick="switchTab('historique')">📋 Historique</button>
+                    <button class="tab-btn" onclick="switchTab('infos')">👤 Informations</button>
+                </div>
+
+                <!-- Onglet Constantes -->
+                <div class="tab-content active" id="tab-constantes">
+                    <div class="constantes-grid" id="constantes-display"></div>
+                    <hr style="border:none; border-top:1px solid var(--border); margin-bottom:16px;">
+                    <p style="font-size:13px; font-weight:600; margin-bottom:12px; color:var(--text2);">
+                        📝 Mesurer les constantes
+                    </p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🌡️ Température (°C)</label>
+                            <input type="number" id="c_temp" placeholder="Ex: 37.2" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>💓 Pouls (bpm)</label>
+                            <input type="number" id="c_pouls" placeholder="Ex: 72">
+                        </div>
+                        <div class="form-group">
+                            <label>🩸 Tension (mmHg)</label>
+                            <input type="text" id="c_tension" placeholder="Ex: 120/80">
+                        </div>
+                        <div class="form-group">
+                            <label>🫁 SpO2 (%)</label>
+                            <input type="number" id="c_spo2" placeholder="Ex: 98" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>⚖️ Poids (kg)</label>
+                            <input type="number" id="c_poids" placeholder="Ex: 65" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>📏 Taille (cm)</label>
+                            <input type="number" id="c_taille" placeholder="Ex: 170">
+                        </div>
+                        <div class="form-group">
+                            <label>🩺 Glycémie (g/dL)</label>
+                            <input type="number" id="c_glycemie" placeholder="Ex: 0.9" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>🫀 FR (resp/min)</label>
+                            <input type="number" id="c_fr" placeholder="Ex: 16">
+                        </div>
+                    </div>
+                    <div style="margin-top:16px;">
+                        <button class="btn-primary btn-success" onclick="sauvegarderConstantes()">
+                            💾 Enregistrer les constantes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Onglet Historique -->
+                <div class="tab-content" id="tab-historique">
+                    <div id="historiqueConsultations">
+                        <p style="color:var(--text2); text-align:center; padding:20px;">
+                            Chargement de l'historique...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Onglet Informations -->
+                <div class="tab-content" id="tab-infos">
+                    <div id="infosPatient"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             SECTION 3 : LISTE DES PATIENTS
+        ============================================= -->
+        <section class="section">
+            <div class="section-title">
+                <span>📋 Liste des patients</span>
+                <span id="compteurPatients" style="font-size:13px; color:var(--text2); font-weight:400;"></span>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° Dossier</th>
+                            <th>Nom complet</th>
+                            <th>Âge</th>
+                            <th>Sexe</th>
+                            <th>Téléphone</th>
+                            <th>Groupe</th>
+                            <th>Dernière visite</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablePatients">
+                        <tr><td colspan="8" style="text-align:center; padding:20px; color:var(--text2);">Chargement...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- DARK MODE -->
+<button class="darkmode" onclick="changerMode()" title="Mode sombre">🌙</button>
+
+<!-- =============================================
+     POPUP IMPRESSION DOSSIER
+============================================= -->
+<div id="popupPrint" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2>🖨️ Dossier patient — Impression</h2>
+            <button class="close-btn" onclick="fermerPrint()">✕</button>
+        </div>
+        <div class="popup-body">
+            <div id="dossierPrintContent" class="dossier-print"></div>
+            <div style="margin-top:20px; display:flex; gap:10px; justify-content:flex-end;">
+                <button class="btn-primary btn-teal" onclick="window.print()">🖨️ Imprimer</button>
+                <button class="btn-primary btn-red" onclick="fermerPrint()">✕ Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+
+// =========================================
+// ÉTAT GLOBAL
+// =========================================
+let patientActuel = null;
+let tousLesPatients = [];
+
+// =========================================
+// CENTRE COURANT (obligatoire pour toutes les requêtes)
+// Lit la même clé que script.js : "centre_sante"
+// =========================================
+function getCentre() {
+    const data = localStorage.getItem("centre_sante");
+    if (!data) {
+        alert("Centre introuvable. Veuillez vous reconnecter.");
+        window.location.href = "../index.html";
+        return null;
+    }
+    try {
+        const parsed = JSON.parse(data);
+        if (!parsed.centre) {
+            alert("Centre introuvable. Veuillez vous reconnecter.");
+            window.location.href = "../index.html";
+            return null;
+        }
+        return parsed.centre;
+    } catch {
+        alert("Centre introuvable. Veuillez vous reconnecter.");
+        window.location.href = "../index.html";
+        return null;
+    }
+}
+
+function getEmail() {
+    const data = localStorage.getItem("centre_sante");
+    if (!data) return null;
+    try {
+        const parsed = JSON.parse(data);
+        return parsed.email || "";
+    } catch {
+        return "";
+    }
+}
+
+// =========================================
+// DARK MODE
+// =========================================
+window.onload = function () {
+    if (localStorage.getItem("theme") === "sombre") {
+        document.body.classList.add("sombre");
+        document.querySelector(".darkmode").innerHTML = "☀️";
+    }
+    chargerTablePatients();
+};
+
+function changerMode() {
+    document.body.classList.toggle("sombre");
+    let btn = document.querySelector(".darkmode");
+    if (document.body.classList.contains("sombre")) {
+        btn.innerHTML = "☀️"; localStorage.setItem("theme","sombre");
+    } else {
+        btn.innerHTML = "🌙"; localStorage.setItem("theme","clair");
+    }
+}
+
+// =========================================
+// TOGGLE MENU
+// =========================================
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const btn     = document.getElementById("menuBtn");
+    if (window.innerWidth > 768) {
+        sidebar.classList.toggle("hidden");
+        btn.style.left = sidebar.classList.contains("hidden") ? "16px" : "270px";
+        localStorage.setItem("sidebarState", sidebar.classList.contains("hidden") ? "hidden" : "open");
+    } else {
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("active");
+    }
+}
+document.getElementById("overlay").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("show");
+    document.getElementById("overlay").classList.remove("active");
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const btn     = document.getElementById("menuBtn");
+    if (localStorage.getItem("sidebarState") === "hidden" && window.innerWidth > 768) {
+        sidebar.classList.add("hidden");
+        btn.style.left = "16px";
+    }
+});
+
+// =========================================
+// DÉCONNEXION
+// =========================================
+function deconnecter() {
+    if (confirm("Voulez-vous vous déconnecter ?")) {
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
+        localStorage.removeItem("centre_sante");
+        window.location.href = "../index.html";
+    }
+}
+
+// =========================================
+// FORMULAIRE INSCRIPTION
+// =========================================
+function toggleFormInscription() {
+    const f = document.getElementById("formInscription");
+    f.style.display = f.style.display === "none" ? "block" : "none";
+}
+
+// =========================================
+// INSCRIRE UN PATIENT
+// =========================================
+async function inscrirePatient() {
+    const centre = getCentre();
+    if (!centre) return;
+
+    const nom         = document.getElementById("p_nom").value.trim();
+    const dob         = document.getElementById("p_dob").value;
+    const sexe        = document.getElementById("p_sexe").value;
+    const tel         = document.getElementById("p_tel").value.trim();
+    const adresse     = document.getElementById("p_adresse").value.trim();
+    const sang        = document.getElementById("p_sang").value;
+    const allergies   = document.getElementById("p_allergies").value.trim();
+    const contact     = document.getElementById("p_contact").value.trim();
+    const antecedents = document.getElementById("p_antecedents").value.trim();
+
+    if (!nom || !dob || !sexe) {
+        alert("Veuillez remplir au minimum le nom, la date de naissance et le sexe.");
+        return;
+    }
+
+    const payload = {
+        centre, nom, dob, sexe, tel, adresse, sang, allergies, contact, antecedents,
+        date_inscription: new Date().toISOString().split("T")[0],
+        constantes: {},
+        consultations: []
+    };
+
+    try {
+        const rep = await fetch("/patients", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...payload, email: getEmail() })
+        });
+        const res = await rep.json();
+        if (res.success) {
+            alert(`✅ Patient enregistré avec succès !\nN° dossier : ${res.dossier}`);
+            toggleFormInscription();
+            // Réinitialiser
+            ["p_nom","p_dob","p_sexe","p_tel","p_adresse","p_sang",
+             "p_allergies","p_contact","p_antecedents"].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = "";
+            });
+            chargerTablePatients();
+        } else {
+            alert("Erreur lors de l'enregistrement : " + (res.message || ""));
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Erreur de connexion au serveur.");
+    }
+}
+
+// =========================================
+// RECHERCHE PATIENT (en local, dans la liste déjà chargée)
+// =========================================
+function rechercherPatient(valeur) {
+    if (!valeur || valeur.length < 2) {
+        document.getElementById("searchResults").style.display = "none";
+        return;
+    }
+    const v = valeur.toLowerCase();
+    const resultats = tousLesPatients.filter(p =>
+        (p.dossier || "").toLowerCase().includes(v) ||
+        (p.nom || "").toLowerCase().includes(v)
+    );
+    afficherResultats(resultats);
+}
+
+function afficherResultats(patients) {
+    const zone = document.getElementById("searchResults");
+    if (!patients || patients.length === 0) {
+        zone.style.display = "block";
+        zone.innerHTML = `<div style="padding:16px; text-align:center; color:var(--text2); font-size:13px;">
+            Aucun patient trouvé. Vérifiez le nom ou le numéro de dossier.
+        </div>`;
+        return;
+    }
+    zone.style.display = "block";
+    zone.innerHTML = patients.map(p => {
+        const age = calculerAge(p.dob);
+        return `
+        <div class="search-item" onclick="selectionnerPatient('${p.dossier}')">
+            <div>
+                <div class="dossier-num">📁 ${p.dossier}</div>
+                <div class="patient-info">${p.nom}</div>
+                <div class="patient-age">${age} ans · ${p.sexe === "M" ? "Masculin" : "Féminin"} · ${p.adresse || "Adresse non renseignée"}</div>
+            </div>
+            <span class="badge badge-blue">Voir le dossier →</span>
+        </div>`;
+    }).join("");
+}
+
+// =========================================
+// SÉLECTIONNER UN PATIENT
+// =========================================
+function selectionnerPatient(dossier) {
+    document.getElementById("searchResults").style.display = "none";
+    document.getElementById("searchInput").value = dossier;
+
+    const patient = tousLesPatients.find(p => p.dossier === dossier);
+    if (!patient) {
+        alert("Patient introuvable.");
+        return;
+    }
+    patientActuel = patient;
+    afficherFichePatient(patient);
+}
+
+// =========================================
+// AFFICHER FICHE PATIENT
+// =========================================
+function afficherFichePatient(p) {
+    const age = calculerAge(p.dob);
+    const initiales = p.nom.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
+
+    // En-tête
+    document.getElementById("patientHeader").innerHTML = `
+        <div class="patient-avatar">${initiales}</div>
+        <div>
+            <h2>${p.nom}</h2>
+            <div class="meta">
+                ${age} ans · ${p.sexe === "M" ? "♂ Masculin" : "♀ Féminin"}
+                ${p.sang ? " · Groupe " + p.sang : ""}
+                ${p.tel ? " · 📞 " + p.tel : ""}
+            </div>
+            <div class="meta" style="margin-top:4px;">
+                📅 Inscrit le ${formatDate(p.date_inscription)}
+                ${p.adresse ? " · 📍 " + p.adresse : ""}
+            </div>
+        </div>
+        <div class="dossier-badge">📁 ${p.dossier}</div>
+    `;
+
+    // Constantes
+    afficherConstantes(p.constantes || {});
+
+    // Historique
+    afficherHistorique(p.consultations || []);
+
+    // Infos
+    afficherInfosPatient(p);
+
+    document.getElementById("fichePatient").style.display = "block";
+    document.getElementById("fichePatient").scrollIntoView({ behavior:"smooth" });
+    switchTab("constantes");
+}
+
+// =========================================
+// AFFICHER CONSTANTES
+// =========================================
+function afficherConstantes(c) {
+    const zone = document.getElementById("constantes-display");
+    const constantes = [
+        { icon:"🌡️", label:"Température",  valeur: c.temp     ? c.temp + " °C"    : "—" },
+        { icon:"💓", label:"Pouls",         valeur: c.pouls    ? c.pouls + " bpm"  : "—" },
+        { icon:"🩸", label:"Tension",       valeur: c.tension  ? c.tension+" mmHg" : "—" },
+        { icon:"🫁", label:"SpO2",          valeur: c.spo2     ? c.spo2 + " %"     : "—" },
+        { icon:"⚖️", label:"Poids",         valeur: c.poids    ? c.poids + " kg"   : "—" },
+        { icon:"📏", label:"Taille",        valeur: c.taille   ? c.taille + " cm"  : "—" },
+        { icon:"🩺", label:"Glycémie",      valeur: c.glycemie ? c.glycemie+" g/dL": "—" },
+        { icon:"🫀", label:"Fréq. resp.",   valeur: c.fr       ? c.fr + " /min"    : "—" },
+    ];
+    zone.innerHTML = constantes.map(ct => `
+        <div class="constante-card">
+            <div class="icon">${ct.icon}</div>
+            <div class="valeur">${ct.valeur}</div>
+            <div class="label">${ct.label}</div>
+        </div>
+    `).join("");
+}
+
+// =========================================
+// SAUVEGARDER CONSTANTES
+// =========================================
+async function sauvegarderConstantes() {
+    if (!patientActuel) return;
+    const centre = getCentre();
+    if (!centre) return;
+
+    const constantes = {
+        temp:     document.getElementById("c_temp").value     || patientActuel.constantes?.temp,
+        pouls:    document.getElementById("c_pouls").value    || patientActuel.constantes?.pouls,
+        tension:  document.getElementById("c_tension").value  || patientActuel.constantes?.tension,
+        spo2:     document.getElementById("c_spo2").value     || patientActuel.constantes?.spo2,
+        poids:    document.getElementById("c_poids").value    || patientActuel.constantes?.poids,
+        taille:   document.getElementById("c_taille").value   || patientActuel.constantes?.taille,
+        glycemie: document.getElementById("c_glycemie").value || patientActuel.constantes?.glycemie,
+        fr:       document.getElementById("c_fr").value       || patientActuel.constantes?.fr,
+        date_mesure: new Date().toISOString()
+    };
+    // Supprimer les champs vides
+    Object.keys(constantes).forEach(k => { if (!constantes[k]) delete constantes[k]; });
+
+    try {
+        const rep = await fetch(`/patients/${patientActuel.dossier}/constantes`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ centre, constantes, email: getEmail() })
+        });
+        const res = await rep.json();
+        if (res.success) {
+            patientActuel.constantes = constantes;
+            afficherConstantes(constantes);
+            alert("✅ Constantes enregistrées.");
+            ["c_temp","c_pouls","c_tension","c_spo2","c_poids","c_taille","c_glycemie","c_fr"]
+                .forEach(id => document.getElementById(id).value = "");
+            chargerTablePatients();
+        } else {
+            alert("Erreur enregistrement constantes : " + (res.message || ""));
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Erreur de connexion.");
+    }
+}
+
+// =========================================
+// ALLER EN CONSULTATION
+// Transmet le dossier sélectionné à la page Consultation
+// =========================================
+function allerEnConsultation() {
+    if (!patientActuel) {
+        alert("Veuillez d'abord sélectionner un patient.");
+        return;
+    }
+    window.location.href = `Consultation.html?dossier=${encodeURIComponent(patientActuel.dossier)}`;
+}
+
+// =========================================
+// AFFICHER HISTORIQUE
+// =========================================
+function afficherHistorique(consultations) {
+    const zone = document.getElementById("historiqueConsultations");
+    if (!consultations || consultations.length === 0) {
+        zone.innerHTML = `<p style="color:var(--text2); text-align:center; padding:20px;">
+            Aucune consultation enregistrée.
+        </p>`;
+        return;
+    }
+    // Côté Réception, on n'affiche qu'un résumé des visites (date, médecin, service).
+    // Le détail clinique (motif, examen, diagnostic, traitement, observations)
+    // n'est consultable que depuis la page Consultation.
+    zone.innerHTML = consultations.map(c => `
+        <div class="consultation-item">
+            <div class="consultation-header" style="cursor:default;">
+                <div>
+                    <div class="date">🩺 ${formatDateHeure(c.date)}</div>
+                    <div class="medecin-nom">${c.medecin || "Médecin non précisé"} · ${c.service || "Service non précisé"}</div>
+                </div>
+                <span class="badge badge-blue">Visite enregistrée</span>
+            </div>
+        </div>
+    `).join("");
+}
+
+// =========================================
+// AFFICHER INFOS PATIENT
+// =========================================
+function afficherInfosPatient(p) {
+    const zone = document.getElementById("infosPatient");
+    zone.innerHTML = `
+        <div class="print-grid">
+            <div class="print-field"><div class="lbl">Nom complet</div><div class="val">${p.nom}</div></div>
+            <div class="print-field"><div class="lbl">Date de naissance</div><div class="val">${formatDate(p.dob)} (${calculerAge(p.dob)} ans)</div></div>
+            <div class="print-field"><div class="lbl">Sexe</div><div class="val">${p.sexe === "M" ? "Masculin" : "Féminin"}</div></div>
+            <div class="print-field"><div class="lbl">Groupe sanguin</div><div class="val">${p.sang || "Non renseigné"}</div></div>
+            <div class="print-field"><div class="lbl">Téléphone</div><div class="val">${p.tel || "Non renseigné"}</div></div>
+            <div class="print-field"><div class="lbl">Adresse</div><div class="val">${p.adresse || "Non renseignée"}</div></div>
+            <div class="print-field"><div class="lbl">Personne à contacter</div><div class="val">${p.contact || "Non renseigné"}</div></div>
+            <div class="print-field"><div class="lbl">Date d'inscription</div><div class="val">${formatDate(p.date_inscription)}</div></div>
+        </div>
+        ${p.allergies ? `<div class="print-field" style="margin-top:8px;"><div class="lbl">⚠️ Allergies</div><div class="val" style="color:var(--red)">${p.allergies}</div></div>` : ""}
+        ${p.antecedents ? `<div class="print-field" style="margin-top:8px;"><div class="lbl">📋 Antécédents médicaux</div><div class="val">${p.antecedents}</div></div>` : ""}
+    `;
+}
+
+// =========================================
+// ONGLETS
+// =========================================
+function switchTab(nom) {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    document.getElementById("tab-" + nom).classList.add("active");
+    document.querySelectorAll(".tab-btn").forEach(b => {
+        if (b.getAttribute("onclick").includes("'" + nom + "'")) b.classList.add("active");
+    });
+}
+
+// =========================================
+// CHARGER TABLE PATIENTS + STATS
+// =========================================
+async function chargerTablePatients() {
+    const centre = getCentre();
+    if (!centre) return;
+
+    try {
+        const rep      = await fetch(`/patients?centre=${encodeURIComponent(centre)}&email=${encodeURIComponent(getEmail())}`);
+        const patients = await rep.json();
+
+        if (!Array.isArray(patients)) {
+            console.error("Réponse inattendue :", patients);
+            return;
+        }
+
+        tousLesPatients = patients;
+
+        const tbody = document.getElementById("tablePatients");
+        document.getElementById("compteurPatients").textContent = `${patients.length} patient(s) enregistré(s)`;
+
+        if (!patients.length) {
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px; color:var(--text2);">Aucun patient enregistré.</td></tr>`;
+        } else {
+            tbody.innerHTML = patients.map(p => {
+                const age = calculerAge(p.dob);
+                const consultations = p.consultations || [];
+                const derniere = consultations.length
+                    ? formatDate(consultations[0].date)
+                    : "—";
+                return `
+                <tr>
+                    <td><strong style="color:var(--accent)">${p.dossier}</strong></td>
+                    <td>${p.nom}</td>
+                    <td>${age} ans</td>
+                    <td><span class="badge ${p.sexe === 'M' ? 'badge-blue' : 'badge-orange'}">${p.sexe === 'M' ? '♂ M' : '♀ F'}</span></td>
+                    <td>${p.tel || "—"}</td>
+                    <td><span class="badge badge-red">${p.sang || "—"}</span></td>
+                    <td>${derniere}</td>
+                    <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <button class="btn-primary" style="padding:6px 10px; font-size:12px;"
+                            onclick="selectionnerPatient('${p.dossier}')">📂 Ouvrir</button>
+                        <button class="btn-primary btn-teal" style="padding:6px 10px; font-size:12px;"
+                            onclick="selectionnerEtImprimer('${p.dossier}')">🖨️</button>
+                    </td>
+                </tr>`;
+            }).join("");
+        }
+
+        // Stats
+        const auj = new Date().toISOString().split("T")[0];
+        document.getElementById("statTotal").textContent = patients.length;
+        document.getElementById("statAujourdhui").textContent =
+            patients.filter(p => p.date_inscription === auj).length;
+
+        let totalConsult = 0;
+        const moisActuel = new Date().getMonth();
+        const anneeActuelle = new Date().getFullYear();
+        patients.forEach(p => {
+            (p.consultations || []).forEach(c => {
+                const d = new Date(c.date);
+                if (d.getMonth() === moisActuel && d.getFullYear() === anneeActuelle) totalConsult++;
+            });
+        });
+        document.getElementById("statConsultations").textContent = totalConsult;
+        document.getElementById("statAttente").textContent = 0;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// =========================================
+// IMPRESSION DOSSIER
+// =========================================
+function imprimerDossier() {
+    if (!patientActuel) { alert("Aucun patient sélectionné."); return; }
+    const p   = patientActuel;
+    const age = calculerAge(p.dob);
+    const c   = p.constantes || {};
+
+    const constHTML = [
+        { lbl:"Température", val: c.temp     ? c.temp + " °C"     : "—" },
+        { lbl:"Pouls",        val: c.pouls    ? c.pouls + " bpm"   : "—" },
+        { lbl:"Tension",      val: c.tension  ? c.tension + " mmHg": "—" },
+        { lbl:"SpO2",         val: c.spo2     ? c.spo2 + " %"      : "—" },
+        { lbl:"Poids",        val: c.poids    ? c.poids + " kg"    : "—" },
+        { lbl:"Taille",       val: c.taille   ? c.taille + " cm"   : "—" },
+        { lbl:"Glycémie",     val: c.glycemie ? c.glycemie+" g/dL" : "—" },
+        { lbl:"Fréq. resp.",  val: c.fr       ? c.fr + " /min"     : "—" },
+    ].map(ct => `
+        <div class="print-const">
+            <div class="pc-val">${ct.val}</div>
+            <div class="pc-lbl">${ct.lbl}</div>
+        </div>
+    `).join("");
+
+    const consultHTML = (p.consultations || []).map(co => `
+        <div class="print-consult">
+            <div class="pc-date">📅 ${formatDateHeure(co.date)} · ${co.medecin || ""} · ${co.service || ""}</div>
+            ${co.motif       ? `<div><strong>Motif :</strong> ${co.motif}</div>` : ""}
+            ${co.diagnostic  ? `<div><strong>Diagnostic :</strong> ${co.diagnostic}</div>` : ""}
+            ${co.traitement  ? `<div><strong>Traitement :</strong> ${co.traitement}</div>` : ""}
+            ${co.observations? `<div><strong>Observations :</strong> ${co.observations}</div>` : ""}
+        </div>
+    `).join("") || "<p style='color:#64748b'>Aucune consultation enregistrée.</p>";
+
+    document.getElementById("dossierPrintContent").innerHTML = `
+        <div class="entete">
+            <div>
+                <div class="hopital-name">🏥 SanaLite RDC</div>
+                <div class="hopital-sub">Système de gestion hospitalière · RDC</div>
+                <div class="hopital-sub">Imprimé le ${formatDateHeure(new Date().toISOString())}</div>
+            </div>
+            <div class="dossier-ref">
+                Numéro de dossier
+                <strong>${p.dossier}</strong>
+            </div>
+        </div>
+
+        <h3>👤 Informations du patient</h3>
+        <div class="print-grid">
+            <div class="print-field"><div class="lbl">Nom complet</div><div class="val">${p.nom}</div></div>
+            <div class="print-field"><div class="lbl">Âge</div><div class="val">${age} ans (né le ${formatDate(p.dob)})</div></div>
+            <div class="print-field"><div class="lbl">Sexe</div><div class="val">${p.sexe === "M" ? "Masculin" : "Féminin"}</div></div>
+            <div class="print-field"><div class="lbl">Groupe sanguin</div><div class="val">${p.sang || "Non renseigné"}</div></div>
+            <div class="print-field"><div class="lbl">Téléphone</div><div class="val">${p.tel || "Non renseigné"}</div></div>
+            <div class="print-field"><div class="lbl">Adresse</div><div class="val">${p.adresse || "Non renseignée"}</div></div>
+            <div class="print-field"><div class="lbl">Contact urgence</div><div class="val">${p.contact || "Non renseigné"}</div></div>
+            <div class="print-field"><div class="lbl">Date inscription</div><div class="val">${formatDate(p.date_inscription)}</div></div>
+        </div>
+        ${p.allergies ? `<div class="print-field"><div class="lbl" style="color:#dc2626">⚠️ Allergies</div><div class="val" style="color:#dc2626;font-weight:700">${p.allergies}</div></div>` : ""}
+        ${p.antecedents ? `<div class="print-field" style="margin-top:8px"><div class="lbl">Antécédents</div><div class="val">${p.antecedents}</div></div>` : ""}
+
+        <h3>💓 Constantes vitales</h3>
+        <div class="print-constantes">${constHTML}</div>
+        ${c.date_mesure ? `<p style="font-size:11px; color:#64748b; margin-bottom:12px;">Mesurées le ${formatDateHeure(c.date_mesure)}</p>` : ""}
+
+        <h3>📋 Historique des consultations (${(p.consultations||[]).length})</h3>
+        ${consultHTML}
+    `;
+
+    document.getElementById("popupPrint").style.display = "flex";
+}
+
+function selectionnerEtImprimer(dossier) {
+    selectionnerPatient(dossier);
+    setTimeout(imprimerDossier, 200);
+}
+
+function fermerPrint() {
+    document.getElementById("popupPrint").style.display = "none";
+}
+
+// =========================================
+// UTILITAIRES
+// =========================================
+function calculerAge(dob) {
+    if (!dob) return "?";
+    const diff = Date.now() - new Date(dob).getTime();
+    return Math.floor(diff / (365.25 * 24 * 3600 * 1000));
+}
+
+function formatDate(d) {
+    if (!d) return "—";
+    try {
+        return new Date(d).toLocaleDateString("fr-FR", { day:"2-digit", month:"2-digit", year:"numeric" });
+    } catch { return d; }
+}
+
+function formatDateHeure(d) {
+    if (!d) return "—";
+    try {
+        return new Date(d).toLocaleString("fr-FR", {
+            day:"2-digit", month:"2-digit", year:"numeric",
+            hour:"2-digit", minute:"2-digit"
+        });
+    } catch { return d; }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+
+*{
+    box-sizing: border-box;
+}
+
+
+body{
+    background: linear-gradient(to right, #ffffff, #408cd8);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* CONTENEUR PRINCIPAL */
+.container{
+    width: 100%;
+    max-width: 420px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* EN-TÊTE */
+.tete{
+   background: linear-gradient(135deg, rgb(10, 10, 237), rgb(0, 132, 255));
+    padding: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px 25px 0px 0px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-bottom: 4px solid #ffffff33;
+    width: 100%;
+}
+
+h1{
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+.sloga {
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    font-size: 16px;
+}
+
+h2{
+    color: #ffffff;
+    text-align: center;
+}
+
+/* MENU */
+.menu{
+    width: 100%;
+    padding: 15px 0;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+    border-radius: 20px;
+}
+
+.menu ul{
+    padding: 0;
+}
+
+.menu ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #5f7192; 
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.menu ul li a:hover{
+    transform: translateY(-2px);
+    color: rgb(0, 132, 255);
+}
+
+
+.corps {
+    width: 100%;
+    background: rgba(121, 172, 185, 0.285);
+    padding: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0px 0px 25px 25px;
+    display: grid;
+    gap: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+}
+.corps button {
+    padding: 12px;
+    border-radius: 15px;
+    border: 0;
+    margin-top: 1px;
+    width: 180px;
+    background: linear-gradient(to right, rgb(10, 10, 237), rgb(0, 132, 255));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+a{
+    text-decoration: none;
+    color: #f3f3f3;
+}

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultation — SanaLite RDC</title>
+    <link rel="stylesheet" href="Styles/personnel.css">
+    <style>
+        /* =========================================
+           VARIABLES & BASE
+        ========================================= */
+        :root {
+            --bg:        #f1f5f9;
+            --surface:   #ffffff;
+            --sidebar:   #0f172a;
+            --accent:    #2563eb;
+            --accent2:   #1d4ed8;
+            --green:     #16a34a;
+            --orange:    #d97706;
+            --red:       #dc2626;
+            --teal:      #0d9488;
+            --purple:    #7c3aed;
+            --text:      #0f172a;
+            --text2:     #64748b;
+            --border:    #e2e8f0;
+            --shadow:    0 4px 20px rgba(0,0,0,.07);
+            --radius:    14px;
+        }
+        body.sombre {
+            --bg:      #020617;
+            --surface: #0f172a;
+            --text:    #f1f5f9;
+            --text2:   #94a3b8;
+            --border:  #1e293b;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Segoe UI',Arial,sans-serif; transition:background .3s,color .3s; }
+
+        /* =========================================
+           LAYOUT
+        ========================================= */
+        .container { display:flex; }
+
+       /* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#0f172a;
+    color:#fff;
+    position:fixed;
+    top:0;
+    left:0;
+    padding:20px 16px;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    transition:transform .3s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.18);
+    z-index:1000;
+}
+
+.sidebar::-webkit-scrollbar{
+    width:4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:#334155;
+    border-radius:10px;
+}
+
+.sidebar.hidden{
+    transform:translateX(-100%);
+}
+
+.logo{
+    margin-bottom:30px;
+    flex-shrink:0;
+}
+
+.logo h2{
+    color:#38bdf8;
+    font-size:22px;
+}
+
+.logo p{
+    font-size:13px;
+    opacity:.7;
+}
+
+.menu{
+    list-style:none;
+    flex:1;
+}
+
+.menu li{
+    margin-bottom:10px;
+    padding:14px;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.menu li:hover{
+    background:#1e293b;
+}
+
+.menu li a{
+    color:#fff;
+    text-decoration:none;
+    display:block;
+}
+
+.active{
+    background:#2563eb;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:25px;
+    transition:.3s;
+}
+
+.sidebar.hidden~.main{
+    margin-left:0;
+    width:100%;
+}
+
+/* =========================
+   BOUTON MENU
+========================= */
+
+.menu-btn{
+    position:fixed;
+    top:15px;
+    left:15px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    z-index:1100;
+}
+
+.menu-btn img{
+    width:30px;
+    height:30px;
+    filter:invert(1);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+.sidebar{
+    transform:translateX(-100%);
+    width:220px;
+}
+
+.sidebar.show{
+    transform:translateX(0);
+}
+
+.main{
+    margin-left:0;
+    width:100%;
+}
+
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+    display:none;
+    z-index:999;
+}
+
+.overlay.active{
+    display:block;
+}
+
+}
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:25px;
+    transition:.3s;
+}
+
+.sidebar.hidden~.main{
+    margin-left:0;
+    width:100%;
+}
+
+/* =========================
+   BOUTON MENU
+========================= */
+
+.menu-btn{
+    position:fixed;
+    top:15px;
+    left:15px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    z-index:1100;
+}
+
+.menu-btn img{
+    width:30px;
+    height:30px;
+    filter:invert(1);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+.sidebar{
+    transform:translateX(-100%);
+    width:220px;
+}
+
+.sidebar.show{
+    transform:translateX(0);
+}
+
+.main{
+    margin-left:0;
+    width:100%;
+}
+
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+    display:none;
+    z-index:999;
+}
+
+.overlay.active{
+    display:block;
+}
+
+}
+        /* =========================================
+           SECTIONS
+        ========================================= */
+        .section {
+            background:var(--surface); border-radius:var(--radius);
+            padding:22px; box-shadow:var(--shadow);
+            border:1px solid var(--border); margin-bottom:20px;
+        }
+        .section-title {
+            font-size:16px; font-weight:700; margin-bottom:16px;
+            display:flex; align-items:center; justify-content:space-between; gap:8px;
+        }
+        .section-title span { display:flex; align-items:center; gap:8px; }
+
+        /* =========================================
+           FORMULAIRES
+        ========================================= */
+        .form-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:12px;
+        }
+        .form-group { display:flex; flex-direction:column; gap:5px; }
+        .form-group label { font-size:12px; font-weight:600; color:var(--text2); }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding:11px 14px; border-radius:10px;
+            border:1px solid var(--border); font-size:14px;
+            background:var(--bg); color:var(--text);
+            outline:none; transition:.2s; font-family:inherit;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.1);
+        }
+        .form-group textarea { resize:vertical; min-height:80px; }
+        .form-full { grid-column:1/-1; }
+
+        .btn-primary {
+            background:var(--accent); color:#fff; border:none;
+            border-radius:10px; padding:11px 20px; font-size:14px;
+            font-weight:600; cursor:pointer; transition:.2s;
+            display:inline-flex; align-items:center; gap:6px;
+        }
+        .btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
+        .btn-success { background:var(--green); }
+        .btn-success:hover { background:#15803d; }
+        .btn-orange { background:var(--orange); }
+        .btn-orange:hover { background:#b45309; }
+        .btn-teal   { background:var(--teal); }
+        .btn-teal:hover   { background:#0f766e; }
+        .btn-red    { background:var(--red); }
+        .btn-red:hover    { background:#b91c1c; }
+
+        /* =========================================
+           RECHERCHE PATIENT
+        ========================================= */
+        .search-bar {
+            display:flex; gap:10px; margin-bottom:16px;
+        }
+        .search-bar input {
+            flex:1; padding:12px 16px; border-radius:10px;
+            border:1px solid var(--border); font-size:14px;
+            background:var(--bg); color:var(--text); outline:none; transition:.2s;
+        }
+        .search-bar input:focus {
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        #searchResults {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:10px; overflow:hidden;
+            box-shadow:var(--shadow); display:none;
+            max-height:280px; overflow-y:auto;
+        }
+        .search-item {
+            padding:12px 16px; cursor:pointer; transition:.15s;
+            border-bottom:1px solid var(--border);
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .search-item:last-child { border-bottom:none; }
+        .search-item:hover { background:rgba(37,99,235,.06); }
+        .search-item .dossier-num { font-weight:700; color:var(--accent); font-size:13px; }
+        .search-item .patient-info { font-size:13px; }
+        .search-item .patient-age  { font-size:12px; color:var(--text2); }
+
+        /* =========================================
+           FICHE PATIENT
+        ========================================= */
+        #fichePatient { display:none; }
+
+        .patient-header {
+            display:flex; align-items:center; gap:20px;
+            padding:20px; background:linear-gradient(135deg,#0d9488,#2563eb);
+            border-radius:12px; color:#fff; margin-bottom:20px;
+        }
+        .patient-avatar {
+            width:64px; height:64px; border-radius:50%;
+            background:rgba(255,255,255,.2);
+            display:flex; align-items:center; justify-content:center;
+            font-size:28px; font-weight:700; flex-shrink:0;
+        }
+        .patient-header h2 { font-size:20px; font-weight:700; margin-bottom:4px; }
+        .patient-header .meta { font-size:13px; opacity:.85; }
+        .patient-header .dossier-badge {
+            margin-left:auto; background:rgba(255,255,255,.2);
+            padding:8px 16px; border-radius:20px;
+            font-size:13px; font-weight:700; white-space:nowrap;
+        }
+
+        /* Constantes (lecture seule) */
+        .constantes-grid {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+            gap:12px;
+        }
+        .constante-card {
+            background:var(--bg); border-radius:10px; padding:14px;
+            border:1px solid var(--border); text-align:center;
+        }
+        .constante-card .icon { font-size:24px; margin-bottom:6px; }
+        .constante-card .valeur { font-size:20px; font-weight:700; color:var(--accent); }
+        .constante-card .label { font-size:11px; color:var(--text2); margin-top:2px; }
+
+        .alerte-allergie {
+            background:#fef2f2; border:1px solid #fecaca; color:#b91c1c;
+            border-radius:10px; padding:12px 16px; font-size:13px;
+            font-weight:600; margin-bottom:16px; display:flex; align-items:center; gap:8px;
+        }
+        body.sombre .alerte-allergie { background:#3b0a0a; border-color:#7f1d1d; color:#fca5a5; }
+
+        /* Historique consultations */
+        .consultation-item {
+            border:1px solid var(--border); border-radius:10px;
+            margin-bottom:12px; overflow:hidden;
+        }
+        .consultation-header {
+            background:var(--bg); padding:12px 16px;
+            display:flex; justify-content:space-between; align-items:center;
+            cursor:pointer; transition:.15s;
+        }
+        .consultation-header:hover { background:rgba(37,99,235,.05); }
+        .consultation-header .date { font-size:13px; font-weight:700; }
+        .consultation-header .medecin-nom { font-size:12px; color:var(--text2); }
+        .consultation-body { padding:16px; display:none; font-size:13px; }
+        .consultation-body.open { display:block; }
+        .consultation-body .field { margin-bottom:10px; }
+        .consultation-body .field strong { display:block; font-size:12px; color:var(--text2); margin-bottom:2px; }
+
+        .badge {
+            display:inline-flex; align-items:center; gap:4px;
+            padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600;
+        }
+        .badge-blue   { background:#dbeafe; color:#1d4ed8; }
+        .badge-teal   { background:#ccfbf1; color:#0f766e; }
+
+  
+        
+        /* =========================================
+           OVERLAY & RESPONSIVE
+        ========================================= */
+        .overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.5); z-index:99;
+        }
+        .overlay.active { display:block; }
+
+        @media (max-width:768px) {
+            .sidebar { transform:translateX(-100%); width:220px; }
+            .sidebar.show { transform:translateX(0); }
+            .menu-btn { left:16px; top:16px; }
+            .main { margin-left:0; width:100%; padding:16px 16px 16px 64px; }
+            .sidebar.hidden ~ .main { padding-left:64px; }
+            .patient-header { flex-wrap:wrap; }
+            .patient-header .dossier-badge { margin-left:0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
+
+    <!-- BOUTON MENU -->
+    <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" title="Menu">
+        <img src="photo/menu .png" alt="Menu">
+    </button>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="../dashboard.html">🏥 Dashboard</a></li>
+                <li><a href="reception.html">🛎️ Réception</a></li>
+                <li class="active"><a>🩺 Consultations</a></li>
+                <li><a href="Medecins.html">👥 Personnel</a></li>
+                <li><a href="rendezvous.html">📅 Rendez-vous</a></li>
+                <li><a href="pharmacie.html">💊 Pharmacie</a></li>
+                <li><a href="laboratoire.html">🧪 Laboratoire</a></li>
+                <li><a href="facturation.html">💳 Facturation</a></li>
+                <li><a href="urgence.html">🚑 Urgences</a></li>
+                <li><a href="settings.html">⚙️ Paramètres</a></li>
+                <li><span onclick="deconnecter()">🚪 Déconnexion</span></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <h1>🩺 Consultation médicale</h1>
+                <p>Examen clinique, diagnostic et suivi du patient</p>
+            </div>
+            <div class="profil">
+                <img src="../media/logo.jpeg" alt="Logo">
+            </div>
+        </header>
+
+        <!-- =============================================
+             RECHERCHE PATIENT
+        ============================================= -->
+        <section class="section">
+            <div class="section-title">
+                <span>🔍 Rechercher un patient</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput"
+                       placeholder="N° dossier ou nom du patient..."
+                       oninput="rechercherPatient(this.value)">
+                <button class="btn-primary" onclick="rechercherPatient(document.getElementById('searchInput').value)">
+                    🔍 Rechercher
+                </button>
+            </div>
+            <div id="searchResults"></div>
+        </section>
+
+        <!-- =============================================
+             FICHE PATIENT + CONSULTATION
+        ============================================= -->
+        <div id="fichePatient">
+
+            <!-- En-tête patient -->
+            <section class="section">
+                <div class="patient-header" id="patientHeader"></div>
+                <div id="alerteAllergie"></div>
+
+                <p style="font-size:13px; font-weight:600; margin-bottom:10px; color:var(--text2);">
+                    💓 Dernières constantes vitales mesurées
+                </p>
+                <div class="constantes-grid" id="constantes-display"></div>
+            </section>
+
+            <!-- Formulaire de consultation -->
+            <section class="section">
+                <div class="section-title">
+                    <span>🩺 Nouvelle consultation</span>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Médecin traitant</label>
+                        <input type="text" id="co_medecin" placeholder="Dr. Nom Prénom">
+                    </div>
+                    <div class="form-group">
+                        <label>Service</label>
+                        <select id="co_service">
+                            <option value="">Choisir le service</option>
+                            <option>Médecine générale</option>
+                            <option>Pédiatrie</option>
+                            <option>Gynécologie</option>
+                            <option>Cardiologie</option>
+                            <option>Chirurgie</option>
+                            <option>Neurologie</option>
+                            <option>Ophtalmologie</option>
+                            <option>Dermatologie</option>
+                            <option>Urgences</option>
+                            <option>Autres</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Motif de consultation</label>
+                        <textarea id="co_motif" placeholder="Décrire le motif de la visite..."></textarea>
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Examen clinique</label>
+                        <textarea id="co_examen" placeholder="Résultats de l'examen clinique..."></textarea>
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Diagnostic</label>
+                        <textarea id="co_diagnostic" placeholder="Diagnostic établi..."></textarea>
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Traitement prescrit</label>
+                        <textarea id="co_traitement" placeholder="Médicaments et posologie..."></textarea>
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Orientation / Observations</label>
+                        <textarea id="co_observations" placeholder="Ex: Envoyer au laboratoire, à la pharmacie, hospitalisation, retour à domicile..."></textarea>
+                    </div>
+                </div>
+                <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-primary btn-success" onclick="sauvegarderConsultation()">
+                        💾 Enregistrer la consultation
+                    </button>
+                    <button class="btn-primary btn-teal" onclick="window.location.href = 'reception.html'">
+                        🛎️ Retour à la réception
+                    </button>
+                    <button class="btn-imprimé" onclick="imprimerConsultation()">
+                        🖨️ Imprimer
+                    </button>
+                </div>
+            </section>
+
+            <!-- Historique -->
+            <section class="section">
+                <div class="section-title">
+                    <span>📋 Historique des consultations</span>
+                </div>
+                <div id="historiqueConsultations">
+                    <p style="color:var(--text2); text-align:center; padding:20px;">
+                        Sélectionnez un patient pour voir son historique.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+</div>
+
+<!-- DARK MODE -->
+<button class="darkmode" onclick="changerMode()" title="Mode sombre">🌙</button>
+
+<!-- SCRIPTS -->
+<script>
+
+// =========================================
+// ÉTAT GLOBAL
+// =========================================
+let patientActuel = null;
+let tousLesPatients = [];
+
+// =========================================
+// CENTRE COURANT (même clé que script.js et reception.html)
+// =========================================
+function getCentre() {
+    const data = localStorage.getItem("centre_sante");
+    if (!data) {
+        alert("Centre introuvable. Veuillez vous reconnecter.");
+        window.location.href = "../index.html";
+        return null;
+    }
+    try {
+        const parsed = JSON.parse(data);
+        if (!parsed.centre) {
+            alert("Centre introuvable. Veuillez vous reconnecter.");
+            window.location.href = "../index.html";
+            return null;
+        }
+        return parsed.centre;
+    } catch {
+        alert("Centre introuvable. Veuillez vous reconnecter.");
+        window.location.href = "../index.html";
+        return null;
+    }
+}
+
+function getEmail() {
+    const data = localStorage.getItem("centre_sante");
+    if (!data) {
+        alert("Compte introuvable. Veuillez vous reconnecter.");
+        window.location.href = "../index.html";
+        return null;
+    }
+    try {
+        const parsed = JSON.parse(data);
+        if (!parsed.email) {
+            alert("Compte introuvable. Veuillez vous reconnecter.");
+            window.location.href = "../index.html";
+            return null;
+        }
+        return parsed.email;
+    } catch {
+        alert("Compte introuvable. Veuillez vous reconnecter.");
+        window.location.href = "../index.html";
+        return null;
+    }
+}
+
+// =========================================
+// DARK MODE
+// =========================================
+window.onload = async function () {
+    if (localStorage.getItem("theme") === "sombre") {
+        document.body.classList.add("sombre");
+        document.querySelector(".darkmode").innerHTML = "☀️";
+    }
+    await chargerListePatients();
+
+    // Si on arrive depuis la Réception avec un dossier déjà choisi
+    const params  = new URLSearchParams(window.location.search);
+    const dossier = params.get("dossier");
+    if (dossier) {
+        selectionnerPatient(dossier);
+    }
+};
+
+function changerMode() {
+    document.body.classList.toggle("sombre");
+    let btn = document.querySelector(".darkmode");
+    if (document.body.classList.contains("sombre")) {
+        btn.innerHTML = "☀️"; localStorage.setItem("theme","sombre");
+    } else {
+        btn.innerHTML = "🌙"; localStorage.setItem("theme","clair");
+    }
+}
+
+// =========================================
+// TOGGLE MENU
+// =========================================
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const btn     = document.getElementById("menuBtn");
+    if (window.innerWidth > 768) {
+        sidebar.classList.toggle("hidden");
+        btn.style.left = sidebar.classList.contains("hidden") ? "16px" : "270px";
+        localStorage.setItem("sidebarState", sidebar.classList.contains("hidden") ? "hidden" : "open");
+    } else {
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("active");
+    }
+}
+document.getElementById("overlay").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("show");
+    document.getElementById("overlay").classList.remove("active");
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const btn     = document.getElementById("menuBtn");
+    if (localStorage.getItem("sidebarState") === "hidden" && window.innerWidth > 768) {
+        sidebar.classList.add("hidden");
+        btn.style.left = "16px";
+    }
+});
+
+// =========================================
+// DÉCONNEXION
+// =========================================
+function deconnecter() {
+    if (confirm("Voulez-vous vous déconnecter ?")) {
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
+        localStorage.removeItem("centre_sante");
+        window.location.href = "../index.html";
+    }
+}
+
+// =========================================
+// CHARGER LA LISTE DES PATIENTS DU CENTRE
+// =========================================
+async function chargerListePatients() {
+    const centre = getCentre();
+    if (!centre) return;
+    try {
+        const rep = await fetch(`/patients?centre=${encodeURIComponent(centre)}&email=${encodeURIComponent(getEmail())}`);
+        const patients = await rep.json();
+        if (Array.isArray(patients)) {
+            tousLesPatients = patients;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// =========================================
+// RECHERCHE PATIENT (en local)
+// =========================================
+function rechercherPatient(valeur) {
+    if (!valeur || valeur.length < 2) {
+        document.getElementById("searchResults").style.display = "none";
+        return;
+    }
+    const v = valeur.toLowerCase();
+    const resultats = tousLesPatients.filter(p =>
+        (p.dossier || "").toLowerCase().includes(v) ||
+        (p.nom || "").toLowerCase().includes(v)
+    );
+    afficherResultats(resultats);
+}
+
+function afficherResultats(patients) {
+    const zone = document.getElementById("searchResults");
+    if (!patients || patients.length === 0) {
+        zone.style.display = "block";
+        zone.innerHTML = `<div style="padding:16px; text-align:center; color:var(--text2); font-size:13px;">
+            Aucun patient trouvé. Vérifiez le nom ou le numéro de dossier.
+        </div>`;
+        return;
+    }
+    zone.style.display = "block";
+    zone.innerHTML = patients.map(p => {
+        const age = calculerAge(p.dob);
+        return `
+        <div class="search-item" onclick="selectionnerPatient('${p.dossier}')">
+            <div>
+                <div class="dossier-num">📁 ${p.dossier}</div>
+                <div class="patient-info">${p.nom}</div>
+                <div class="patient-age">${age} ans · ${p.sexe === "M" ? "Masculin" : "Féminin"} · ${p.adresse || "Adresse non renseignée"}</div>
+            </div>
+            <span class="badge badge-blue">Sélectionner →</span>
+        </div>`;
+    }).join("");
+}
+
+// =========================================
+// SÉLECTIONNER UN PATIENT
+// =========================================
+async function selectionnerPatient(dossier) {
+    document.getElementById("searchResults").style.display = "none";
+    document.getElementById("searchInput").value = dossier;
+
+    // Toujours recharger pour avoir les données les plus récentes
+    await chargerListePatients();
+    const patient = tousLesPatients.find(p => p.dossier === dossier);
+    if (!patient) {
+        alert("Patient introuvable.");
+        return;
+    }
+    patientActuel = patient;
+    afficherFichePatient(patient);
+}
+
+// =========================================
+// AFFICHER FICHE PATIENT (lecture seule)
+// =========================================
+function afficherFichePatient(p) {
+    const age = calculerAge(p.dob);
+    const initiales = p.nom.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
+
+    document.getElementById("patientHeader").innerHTML = `
+        <div class="patient-avatar">${initiales}</div>
+        <div>
+            <h2>${p.nom}</h2>
+            <div class="meta">
+                ${age} ans · ${p.sexe === "M" ? "♂ Masculin" : "♀ Féminin"}
+                ${p.sang ? " · Groupe " + p.sang : ""}
+                ${p.tel ? " · 📞 " + p.tel : ""}
+            </div>
+        </div>
+        <div class="dossier-badge">📁 ${p.dossier}</div>
+    `;
+
+    const alerteZone = document.getElementById("alerteAllergie");
+    alerteZone.innerHTML = p.allergies
+        ? `<div class="alerte-allergie">⚠️ Allergies connues : ${p.allergies}</div>`
+        : "";
+
+    afficherConstantes(p.constantes || {});
+    afficherHistorique(p.consultations || []);
+
+    document.getElementById("fichePatient").style.display = "block";
+    document.getElementById("fichePatient").scrollIntoView({ behavior:"smooth" });
+}
+
+// =========================================
+// AFFICHER CONSTANTES (lecture seule)
+// =========================================
+function afficherConstantes(c) {
+    const zone = document.getElementById("constantes-display");
+    const constantes = [
+        { icon:"🌡️", label:"Température",  valeur: c.temp     ? c.temp + " °C"    : "—" },
+        { icon:"💓", label:"Pouls",         valeur: c.pouls    ? c.pouls + " bpm"  : "—" },
+        { icon:"🩸", label:"Tension",       valeur: c.tension  ? c.tension+" mmHg" : "—" },
+        { icon:"🫁", label:"SpO2",          valeur: c.spo2     ? c.spo2 + " %"     : "—" },
+        { icon:"⚖️", label:"Poids",         valeur: c.poids    ? c.poids + " kg"   : "—" },
+        { icon:"📏", label:"Taille",        valeur: c.taille   ? c.taille + " cm"  : "—" },
+        { icon:"🩺", label:"Glycémie",      valeur: c.glycemie ? c.glycemie+" g/dL": "—" },
+        { icon:"🫀", label:"Fréq. resp.",   valeur: c.fr       ? c.fr + " /min"    : "—" },
+    ];
+    zone.innerHTML = constantes.map(ct => `
+        <div class="constante-card">
+            <div class="icon">${ct.icon}</div>
+            <div class="valeur">${ct.valeur}</div>
+            <div class="label">${ct.label}</div>
+        </div>
+    `).join("");
+}
+
+// =========================================
+// SAUVEGARDER CONSULTATION
+// =========================================
+async function sauvegarderConsultation() {
+    if (!patientActuel) {
+        alert("Veuillez d'abord sélectionner un patient.");
+        return;
+    }
+    const centre = getCentre();
+    if (!centre) return;
+
+    const motif        = document.getElementById("co_motif").value.trim();
+    const medecin       = document.getElementById("co_medecin").value.trim();
+    const service       = document.getElementById("co_service").value;
+    const examen        = document.getElementById("co_examen").value.trim();
+    const diagnostic     = document.getElementById("co_diagnostic").value.trim();
+    const traitement     = document.getElementById("co_traitement").value.trim();
+    const observations   = document.getElementById("co_observations").value.trim();
+
+    if (!motif) { alert("Veuillez indiquer le motif de consultation."); return; }
+
+    const consultation = {
+        date: new Date().toISOString(),
+        medecin, service, motif, examen, diagnostic, traitement, observations
+    };
+
+    try {
+        const rep = await fetch(`/patients/${patientActuel.dossier}/consultations`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ centre, consultation, email: getEmail() })
+        });
+        const res = await rep.json();
+        if (res.success) {
+            if (!patientActuel.consultations) patientActuel.consultations = [];
+            patientActuel.consultations.unshift(consultation);
+            afficherHistorique(patientActuel.consultations);
+            alert("✅ Consultation enregistrée.");
+            ["co_medecin","co_service","co_motif","co_examen",
+             "co_diagnostic","co_traitement","co_observations"]
+                .forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+        } else {
+            alert("Erreur enregistrement consultation : " + (res.message || ""));
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Erreur de connexion.");
+    }
+}
+
+// =========================================
+// AFFICHER HISTORIQUE
+// =========================================
+function afficherHistorique(consultations) {
+    const zone = document.getElementById("historiqueConsultations");
+    if (!consultations || consultations.length === 0) {
+        zone.innerHTML = `<p style="color:var(--text2); text-align:center; padding:20px;">
+            Aucune consultation enregistrée.
+        </p>`;
+        return;
+    }
+    zone.innerHTML = consultations.map((c, i) => `
+        <div class="consultation-item">
+            <div class="consultation-header" onclick="toggleConsultation(${i})">
+                <div>
+                    <div class="date">🩺 ${formatDateHeure(c.date)}</div>
+                    <div class="medecin-nom">${c.medecin || "Médecin non précisé"} · ${c.service || ""}</div>
+                </div>
+                <span class="badge badge-teal">▼</span>
+            </div>
+            <div class="consultation-body" id="consult-${i}">
+                ${c.motif       ? `<div class="field"><strong>Motif</strong>${c.motif}</div>` : ""}
+                ${c.examen      ? `<div class="field"><strong>Examen clinique</strong>${c.examen}</div>` : ""}
+                ${c.diagnostic  ? `<div class="field"><strong>Diagnostic</strong>${c.diagnostic}</div>` : ""}
+                ${c.traitement  ? `<div class="field"><strong>Traitement</strong>${c.traitement}</div>` : ""}
+                ${c.observations? `<div class="field"><strong>Orientation / Observations</strong>${c.observations}</div>` : ""}
+            </div>
+        </div>
+    `).join("");
+}
+
+function toggleConsultation(i) {
+    const el = document.getElementById(`consult-${i}`);
+    el.classList.toggle("open");
+}
+
+// =========================================
+// UTILITAIRES
+// =========================================
+function calculerAge(dob) {
+    if (!dob) return "?";
+    const diff = Date.now() - new Date(dob).getTime();
+    return Math.floor(diff / (365.25 * 24 * 3600 * 1000));
+}
+
+function formatDateHeure(d) {
+    if (!d) return "—";
+    try {
+        return new Date(d).toLocaleString("fr-FR", {
+            day:"2-digit", month:"2-digit", year:"numeric",
+            hour:"2-digit", minute:"2-digit"
+        });
+    } catch { return d; }
+}
+</script>
+<script src="./Backend/consultation.js"></script>
+
+</body>
+</html>

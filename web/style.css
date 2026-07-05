@@ -1,0 +1,327 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background: linear-gradient(to right, #eef4ff, #f7fbff);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* CONTENEUR PRINCIPAL */
+.container{
+    width: 565px;
+    min-width: 420px;
+    max-width: 420px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* EN-TÊTE */
+.tete{
+    width: 565px;
+    background: linear-gradient(135deg, rgb(10, 10, 237), rgb(0, 132, 255));
+    padding: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px 25px 0px 0px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-bottom: 4px solid #ffffff33;
+}
+
+h1{
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+p{
+    color: #f3f3f3;
+    font-family: sans-serif;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+/* CORPS */
+.corps{
+    width: 565px;
+    background: rgba(121, 172, 185, 0.285);
+    padding: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0px 0px 25px 25px;
+    display: grid;
+    gap: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+}
+
+/* CHAMPS */
+input{
+    padding: 14px;
+    border-radius: 15px;
+    border: 1px solid #d7dce5;
+    margin: 5px 0;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+    background: #f9fbfd;
+}
+
+input:focus{
+    border: 1px solid rgb(10, 10, 237);
+    box-shadow: 0 0 8px rgba(10, 10, 237, 0.2);
+    background: white;
+}
+
+select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 15px;
+    border: 1px solid #d7dce5;
+    margin: 5px 0;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+    background: #f9fbfd;
+    color: #535355;
+}
+select:focus{
+    border: 1px solid rgb(10, 10, 237);
+    box-shadow: 0 0 8px rgba(10, 10, 237, 0.2);
+    background: white;
+}
+
+.sous_pied {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+/* TITRES */
+h2{
+    color: rgb(10, 10, 237);
+    font-family: sans-serif;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+/* BOUTONS */
+.btn1{
+    padding: 12px;
+    border-radius: 15px;
+    border: 0;
+    margin-top: 10px;
+    width: 120px;
+    background: linear-gradient(to right, rgb(10, 10, 237), rgb(0, 132, 255));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn1:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(10, 10, 237, 0.3);
+}
+
+.btn2{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    margin-top: 10px;
+    width: 120px;
+    background: linear-gradient(to right, green, rgb(44, 180, 44));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    height: 40px;
+}
+
+.btn2:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 128, 0, 0.3);
+}
+
+.btn3{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    margin-top: 10px;
+    width: 180px;
+    background: linear-gradient(to right, rgb(237, 29, 29), rgb(255, 72, 72));
+    color: #f3f3f3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn3:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(237, 29, 29, 0.3);
+}
+
+.btn4{
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    width: 130px;
+    background: linear-gradient(to right, rgb(80, 180, 33), rgb(117, 221, 68));
+    color: #f3f3f3;
+    font-weight: bold;
+    margin-left: 170px;
+    display: flex;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 5px;
+    margin-top: 10px;
+    display: grid;
+}
+
+.btn4:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(80, 180, 33, 0.3);
+}
+
+.login,
+.inscription{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login:hover,
+.inscription:hover{
+    text-decoration: none;
+}
+
+.password_oublier{
+    margin-left: 335px;
+    margin-top: -35px;
+}
+
+.oublier {
+    padding: 12px;
+    border-radius: 20px;
+    border: 0;
+    width: 160px;
+    background: linear-gradient(to right, rgb(180, 33, 33), rgb(207, 85, 89));
+    color: #f3f3f3;
+    font-weight: bold;
+    margin-left: 170px;
+    display: flex;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 1px;
+    margin-top: 10px;
+}
+.oublier a{
+    text-decoration: none;
+    color: white;
+    width: 180px;
+    
+}/* =========================
+   BOUTON MODE SOMBRE
+========================= */
+
+.darkmode{
+    position: fixed;
+
+    top: 20px;
+    right: 5px;
+
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background: linear-gradient(to right, #111827, #1f2937);
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    z-index: 1000;
+}
+
+.darkmode:hover{
+    transform: scale(1.05);
+}
+
+/* =========================
+   MODE SOMBRE
+========================= */
+
+body.sombre{
+    background: linear-gradient(to right, #0f172a, #111827);
+}
+
+body.sombre .tete{
+    background: linear-gradient(
+        135deg,
+        #1d4ed8,
+        #2563eb
+    );
+}
+
+body.sombre .corps{
+    background: rgba(30, 41, 59, 0.85);
+}
+
+body.sombre h2{
+    color: #93c5fd;
+}
+
+body.sombre input,
+body.sombre select{
+    background: #1e293b;
+
+    color: white;
+
+    border: 1px solid #334155;
+}
+
+body.sombre input::placeholder{
+    color: #cbd5e1;
+}
+
+body.sombre select{
+    color: #e2e8f0;
+}
+
+body.sombre input:focus,
+body.sombre select:focus{
+    border: 1px solid #60a5fa;
+
+    box-shadow: 0 0 8px rgba(96,165,250,0.3);
+
+    background: #273449;
+}
+
+.pied{
+    display: flex;
+    position: relative;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+.annuler {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}

@@ -1,0 +1,105 @@
+[
+    {
+        "date": "2026-06-28",
+        "total": 6,
+        "presents": 4,
+        "absents": 1,
+        "justifies": 1,
+        "personnel": [
+            {
+                "experience": "22",
+                "fonction": "Maintenance",
+                "nom": "ANSCodes",
+                "present": true,
+                "specialite": "kdf",
+                "statut": "absent"
+            },
+            {
+                "experience": "23",
+                "fonction": "Laborantin",
+                "nom": "ANSCodes",
+                "present": false,
+                "specialite": "sd",
+                "statut": "justifie"
+            },
+            {
+                "experience": "2",
+                "fonction": "Infirmier",
+                "nom": "ANSCodes",
+                "present": true,
+                "specialite": "fjdf",
+                "statut": "present"
+            },
+            {
+                "experience": "323",
+                "fonction": "Pharmacien",
+                "nom": "ANSCodes",
+                "present": false,
+                "specialite": "erezr",
+                "statut": "present"
+            },
+            {
+                "experience": "5",
+                "fonction": "Chauffeur",
+                "nom": "Kelvin",
+                "specialite": "Mecanicien",
+                "statut": "present"
+            },
+            {
+                "experience": "10",
+                "fonction": "Sécurité",
+                "nom": "Kambale",
+                "specialite": "Cybersecurité",
+                "statut": "present"
+            }
+        ]
+    },
+    {
+        "date": "2026-06-27",
+        "total": 5,
+        "presents": 3,
+        "absents": 1,
+        "justifies": 1,
+        "personnel": [
+            {
+                "experience": "22",
+                "fonction": "Maintenance",
+                "nom": "ANSCodes",
+                "present": true,
+                "specialite": "kdf",
+                "statut": "justifie"
+            },
+            {
+                "experience": "23",
+                "fonction": "Laborantin",
+                "nom": "ANSCodes",
+                "present": false,
+                "specialite": "sd",
+                "statut": "present"
+            },
+            {
+                "experience": "2",
+                "fonction": "Infirmier",
+                "nom": "ANSCodes",
+                "present": true,
+                "specialite": "fjdf",
+                "statut": "present"
+            },
+            {
+                "experience": "323",
+                "fonction": "Pharmacien",
+                "nom": "ANSCodes",
+                "present": false,
+                "specialite": "erezr",
+                "statut": "present"
+            },
+            {
+                "experience": "5",
+                "fonction": "Chauffeur",
+                "nom": "Kelvin",
+                "specialite": "Mecanicien",
+                "statut": "absent"
+            }
+        ]
+    }
+]

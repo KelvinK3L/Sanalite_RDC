@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Médecins - SanaLite</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>SanaLite RDC</h2>
+            <p>Hospital System</p>
+        </div>
+
+        <nav>
+            <ul class="menu">
+
+                <li>
+                    <a href="../dashboard.html">🏥 Dashboard</a>
+                </li>
+
+                <li class="active">
+                    <a >👨‍⚕️ Médecins</a>
+                </li>
+
+                <li><a href="/reception">🧑‍🦱 Patients</a></li>
+                <li><a href="rendezvous.html">📅 Rendez-vous</a></li>
+                <li><a href="pharmacie.html">💊 Pharmacie</a></li>
+                <li><a href="/laboratoire">🧪 Laboratoire</a></li>
+                <li><a href="/facturation">💳 Facturation</a></li>
+                <li><a href="/urgence">🚑 Urgences</a></li>
+                <li><a href="/settings">⚙️ Paramètres</a></li>
+
+                <li>
+                    <a onclick="deconnecter()">🚪 Déconnexion</a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <h1>Gestion des Médecins</h1>
+                <p>Enregistrer et suivre la présence</p>
+            </div>
+
+            <div class="profil">
+                <img src="../media/logo.jpeg" alt="profil">
+            </div>
+
+        </header>
+
+        <!-- FORM SECTION -->
+        <section class="card">
+
+            <h2>➕ Register Médecin</h2>
+
+            <div class="form-grid">
+
+                <input type="text" id="nom" placeholder="Nom du médecin">
+                <input type="text" id="specialite" placeholder="Spécialité">
+                <input type="number" id="experience" placeholder="Années d'expérience">
+
+                <button onclick="ajouterMedecin()">
+                    Enregistrer
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- LIST SECTION -->
+        <section class="card">
+
+            <h2>📋 Liste des Médecins</h2>
+
+            <div id="listeMedecins"></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- DARK MODE -->
+<button class="darkmode" onclick="changerMode()">🌙</button>
+
+<script src="script.js"></script>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    afficherMedecins();
+});
+</script>
+
+</body>
+</html>

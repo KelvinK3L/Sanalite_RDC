@@ -1,0 +1,29 @@
+[
+    {
+        "nom": "ANSCodes",
+        "fonction": "Sécurité",
+        "specialite": "Informatique",
+        "experience": "1",
+        "statut": "present",
+        "centre": "Göel",
+        "email": "goelhospi22@gmail.com"
+    },
+    {
+        "nom": "KLV",
+        "fonction": "Administration",
+        "specialite": "Gestion des ressource humaine",
+        "experience": "2",
+        "statut": "justifie",
+        "centre": "Göel",
+        "email": "goelhospi22@gmail.com"
+    },
+    {
+        "nom": "Joseph",
+        "fonction": "Médecin",
+        "specialite": "sans spécialite",
+        "experience": "1",
+        "statut": "absent",
+        "centre": "Göel",
+        "email": "goelhospi22@gmail.com"
+    }
+]

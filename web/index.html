@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanalite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="tete">
+        <h1>Sanalite_RDC</h1>
+        <p>Digitaliser vos information avec une meilleur securité informatique</p>
+    </div>
+    <button class="darkmode" onclick="changerMode()">
+    🌙
+    </button>
+
+    <div class="corps">
+        
+        <input type="text" id="nom_admin" placeholder="Nom admin">
+
+        <input type="text" id="nom_centre" placeholder="Le nom de votre centre de santé">
+
+        <input type="email" id="adress_email" placeholder="L'e-mail de votre centre de santé">
+
+        <input type="password" id="mot_de_passe" placeholder="Votre mot de passe">
+
+        
+        <select id="service" aria-placeholder="Quel est votre service">
+            <option value="Quel est votre service">Quel est votre service</option>
+            <option value="Admin">Administrateur</option>
+            <option value="Receptionniste">Réceptionniste</option>
+            <option value="Consultation">Consultation</option>
+            <option value="Medecin">Médecin</option>
+            <option value="Infermier">Infermier</option>
+            <option value="Laboratoire">Laboratoire</option>
+            <option value="Pharmacie">Pharmacie</option>
+
+        </select>
+
+        <input type="text" id="nom_serveur" placeholder="Le nom de votre serveur ou votre database">
+        <input type="password" id="mot_de_passe_serveur" placeholder="le mot de passe de votre serveur">
+
+        <div class="sous_pied">
+
+            <button class="btn1" onclick="connecter()">
+                Se connecter
+            </button>
+
+            <button class="btn4" onclick="window.location.href='s_inscrire.html'">
+                S'inscrire
+            </button>
+
+            <button class="oublier">
+                Mot de passe oublié
+            </button>
+
+        </div>
+        
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
