@@ -1,6 +1,44 @@
 [
     {
         "centre": "Göel",
+        "date": "2026-07-06",
+        "total": 3,
+        "presents": 0,
+        "absents": 3,
+        "justifies": 0,
+        "personnel": [
+            {
+                "centre": "Göel",
+                "email": "goelhospi22@gmail.com",
+                "experience": "1",
+                "fonction": "Sécurité",
+                "nom": "ANSCodes",
+                "specialite": "Informatique",
+                "statut": "absent"
+            },
+            {
+                "centre": "Göel",
+                "email": "goelhospi22@gmail.com",
+                "experience": "2",
+                "fonction": "Administration",
+                "nom": "KLV",
+                "specialite": "Gestion des ressource humaine",
+                "statut": "absent"
+            },
+            {
+                "centre": "Göel",
+                "email": "goelhospi22@gmail.com",
+                "experience": "1",
+                "fonction": "Médecin",
+                "nom": "Joseph",
+                "specialite": "sans spécialite",
+                "statut": "absent"
+            }
+        ],
+        "email": "goelhospi22@gmail.com"
+    },
+    {
+        "centre": "Göel",
         "date": "2026-07-05",
         "total": 3,
         "presents": 1,

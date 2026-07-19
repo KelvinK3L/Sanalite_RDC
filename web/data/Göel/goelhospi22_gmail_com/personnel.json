@@ -4,7 +4,7 @@
         "fonction": "Sécurité",
         "specialite": "Informatique",
         "experience": "1",
-        "statut": "present",
+        "statut": "absent",
         "centre": "Göel",
         "email": "goelhospi22@gmail.com"
     },
@@ -13,7 +13,7 @@
         "fonction": "Administration",
         "specialite": "Gestion des ressource humaine",
         "experience": "2",
-        "statut": "justifie",
+        "statut": "absent",
         "centre": "Göel",
         "email": "goelhospi22@gmail.com"
     },

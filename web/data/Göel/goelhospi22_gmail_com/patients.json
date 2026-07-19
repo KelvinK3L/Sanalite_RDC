@@ -26,5 +26,33 @@
         ],
         "email": "goelhospi22@gmail.com",
         "dossier": "PAT-0001"
+    },
+    {
+        "centre": "Göel",
+        "nom": "ANSCodes",
+        "dob": "2008-02-13",
+        "sexe": "M",
+        "tel": "+243982248670",
+        "adresse": "25-45",
+        "sang": "O+",
+        "allergies": "Rien",
+        "contact": "0982248670",
+        "antecedents": "fg",
+        "date_inscription": "2026-07-06",
+        "constantes": {},
+        "consultations": [
+            {
+                "date": "2026-07-06T17:00:44.691Z",
+                "medecin": "",
+                "service": "",
+                "motif": "Rien",
+                "examen": "",
+                "diagnostic": "",
+                "traitement": "",
+                "observations": ""
+            }
+        ],
+        "email": "goelhospi22@gmail.com",
+        "dossier": "PAT-0002"
     }
 ]

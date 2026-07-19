@@ -1,0 +1,20 @@
+[
+    {
+        "nom": "Kambale",
+        "fonction": "Médecin",
+        "specialite": "Médecine",
+        "experience": "5",
+        "statut": "present",
+        "centre": "Matanda",
+        "email": "matanda22@gmail.com"
+    },
+    {
+        "nom": "Kelvin ndivito jean",
+        "fonction": "Infirmier",
+        "specialite": "Infirmeri",
+        "experience": "2",
+        "statut": "justifie",
+        "centre": "Matanda",
+        "email": "matanda22@gmail.com"
+    }
+]
